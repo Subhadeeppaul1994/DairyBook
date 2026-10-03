@@ -23,7 +23,6 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_alignParentStart="true"
-
             android:layout_marginTop="32dp"
             android:scaleType="centerCrop"
             app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
@@ -40,8 +39,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
             android:layout_marginStart="12dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="12dp"
             android:layout_toStartOf="@id/btnNotification"
             android:layout_toEndOf="@id/ivUserProfile"
@@ -194,7 +193,6 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <!-- SECTION 1: Fresh Products -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvCategories"
                 android:layout_width="match_parent"
@@ -206,6 +204,7 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_category" />
 
+            <!-- SECTION 1: Fresh Products -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -323,9 +322,9 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/bottomNavigationCard"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="56dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginHorizontal="24dp"
+        android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="16dp"
         app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="32dp"
@@ -335,16 +334,19 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="8dp">
 
+            <!-- Active Selected Tab Container -->
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="42dp"
+                android:layout_width="0dp"
+                android:layout_height="44dp"
+                android:layout_weight="1.2"
                 android:background="@drawable/bg_active_nav_tab"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingHorizontal="16dp">
+                android:paddingHorizontal="12dp">
 
                 <ImageView
                     android:layout_width="20dp"
@@ -355,36 +357,44 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="6dp"
+                    android:singleLine="true"
                     android:text="Home"
                     android:textColor="#FFFFFF"
-                    android:textSize="14sp"
+                    android:textSize="13sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
             <ImageView
                 android:id="@+id/navFavorites"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:padding="12dp"
+                android:scaleType="fitCenter"
                 android:src="@android:drawable/btn_star_big_off"
                 app:tint="#B0B0B0" />
 
             <ImageView
                 android:id="@+id/navCart"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:padding="12dp"
+                android:scaleType="fitCenter"
                 android:src="@android:drawable/ic_menu_view"
                 app:tint="#B0B0B0" />
 
             <ImageView
                 android:id="@+id/navProfile"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:padding="12dp"
+                android:scaleType="fitCenter"
                 android:src="@android:drawable/ic_menu_myplaces"
                 app:tint="#B0B0B0" />
+
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 

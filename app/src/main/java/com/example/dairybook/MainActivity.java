@@ -186,9 +186,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupDealOfTheDay() {
         List<ProductItem> list = new ArrayList<>();
-        list.add(new ProductItem("Unsalted Butter 100g", "₹52", "https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg"));
-        list.add(new ProductItem("Mango Lassi 200ml", "₹30", "https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg"));
-        list.add(new ProductItem("Cheese Slices 200g", "₹125", "https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg"));
+        list.add(new ProductItem("Unsalted Butter 100g", "₹52", "https://res.cloudinary.com/bxfg4024/image/upload/v1791029827/butter_pack.png"));
+        list.add(new ProductItem("Mango Lassi 200ml", "₹30", "https://res.cloudinary.com/bxfg4024/image/upload/v1791029831/lassi_mango.png"));
+        list.add(new ProductItem("Cheese Slices 200g", "₹125", "https://res.cloudinary.com/bxfg4024/image/upload/v1791029827/slice_cheese.png"));
 
         rvDealOfTheDay.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         rvDealOfTheDay.setAdapter(new ProductAdapter(list));
@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupNewLaunch() {
         List<ProductItem> list = new ArrayList<>();
-        list.add(new ProductItem("Almond Milk 1L", "₹180", "https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg"));
+        list.add(new ProductItem("Almond Milk 1L", "₹180", "https://res.cloudinary.com/bxfg4024/image/upload/v1791029827/almond_milk.png"));
         list.add(new ProductItem("Flavored Yogurt (Berry)", "₹45", "https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg"));
         list.add(new ProductItem("Condensed Milk 400g", "₹140", "https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg"));
 
