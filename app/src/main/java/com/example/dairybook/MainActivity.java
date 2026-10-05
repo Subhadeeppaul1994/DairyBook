@@ -1,11 +1,13 @@
 package com.example.dairybook;
 
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,6 +23,9 @@ import com.google.android.material.imageview.ShapeableImageView;
 import java.util.ArrayList;
 import java.util.List;
 
+import eightbitlab.com.blurview.BlurView;
+import eightbitlab.com.blurview.RenderScriptBlur;
+
 public class MainActivity extends AppCompatActivity {
 
     private ShapeableImageView ivUserProfile;
@@ -29,6 +34,12 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvBannerCounter;
     private LinearLayout layoutDotsIndicator;
     private RecyclerView rvCategories, rvFreshProducts, rvDealOfTheDay, rvNewLaunch;
+    private BlurView blurHeaderPill;
+
+    // Bottom Navigation Views
+    private LinearLayout navHomeLayout, navFavLayout, navOfferLayout, navCartLayout;
+    private ImageView navHomeIcon, navFavIcon, navOfferIcon, navCartIcon;
+    private TextView navHomeText, navFavText, navOfferText, navCartText;
 
     private Handler autoScrollHandler = new Handler(Looper.getMainLooper());
     private Runnable autoScrollRunnable;
@@ -42,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         // Bind Views
         ivUserProfile = findViewById(R.id.ivUserProfile);
         ivHeroBanner = findViewById(R.id.ivHeroBanner);
+        blurHeaderPill = findViewById(R.id.blurHeaderPill);
         bannerViewPager = findViewById(R.id.bannerViewPager);
         tvBannerCounter = findViewById(R.id.tvBannerCounter);
         layoutDotsIndicator = findViewById(R.id.layoutDotsIndicator);
@@ -50,21 +62,43 @@ public class MainActivity extends AppCompatActivity {
         rvDealOfTheDay = findViewById(R.id.rvDealOfTheDay);
         rvNewLaunch = findViewById(R.id.rvNewLaunch);
 
-        // Load Profile Image from Cloudinary
+        // Bind Bottom Navigation (FIXED: Corrected navOffer IDs)
+        navHomeLayout = findViewById(R.id.navHomeLayout);
+        navFavLayout = findViewById(R.id.navFavLayout);
+        navOfferLayout = findViewById(R.id.navOfferLayout);
+        navCartLayout = findViewById(R.id.navCartLayout);
+
+        navHomeIcon = findViewById(R.id.navHomeIcon);
+        navFavIcon = findViewById(R.id.navFavIcon);
+        navOfferIcon = findViewById(R.id.navOfferIcon);
+        navCartIcon = findViewById(R.id.navCartIcon);
+
+        navHomeText = findViewById(R.id.navHomeText);
+        navFavText = findViewById(R.id.navFavText);
+        navOfferText = findViewById(R.id.navOfferText);
+        navCartText = findViewById(R.id.navCartText);
+
+        // Setup Glass Blur on Header Pill Container
+        setupHeaderBlur();
+
+        // Load Profile Image from Cloudinary (FIXED: Neutral dark gray placeholder instead of gallery grid icon)
         String profileImageUrl = "https://res.cloudinary.com/bxfg4024/image/upload/v1791023620/profile_image.jpg";
         Glide.with(this)
                 .load(profileImageUrl)
-                .placeholder(android.R.drawable.ic_menu_gallery)
-                .error(android.R.drawable.ic_menu_gallery)
+                .placeholder(android.R.color.darker_gray)
+                .error(android.R.color.darker_gray)
                 .into(ivUserProfile);
 
-        // Load Hero Banner Image from Cloudinary (Replace with your hero banner URL)
+        // Load Hero Banner Image from Cloudinary (FIXED: Neutral dark gray placeholder instead of gallery grid icon)
         String heroBannerUrl = "https://res.cloudinary.com/bxfg4024/image/upload/v1791190072/IMG_20261005_141611.png";
         Glide.with(this)
                 .load(heroBannerUrl)
-                .placeholder(android.R.drawable.ic_menu_gallery)
-                .error(android.R.drawable.ic_menu_gallery)
+                .placeholder(android.R.color.darker_gray)
+                .error(android.R.color.darker_gray)
                 .into(ivHeroBanner);
+
+        // Setup Bottom Navigation
+        setupBottomNavigation();
 
         // Setup Sections
         setupBanners();
@@ -72,6 +106,64 @@ public class MainActivity extends AppCompatActivity {
         setupFreshProducts();
         setupDealOfTheDay();
         setupNewLaunch();
+    }
+
+    private void setupHeaderBlur() {
+        View decorView = getWindow().getDecorView();
+        ViewGroup rootView = decorView.findViewById(android.R.id.content);
+        Drawable windowBackground = decorView.getBackground();
+
+        blurHeaderPill.setupWith(rootView, new RenderScriptBlur(this))
+                .setFrameClearDrawable(windowBackground)
+                .setBlurRadius(16f);
+    }
+
+    private void setupBottomNavigation() {
+        // Set Home selected by default
+        selectTab(0);
+
+        navHomeLayout.setOnClickListener(v -> selectTab(0));
+        navFavLayout.setOnClickListener(v -> selectTab(1));
+        navOfferLayout.setOnClickListener(v -> selectTab(2));
+        navCartLayout.setOnClickListener(v -> selectTab(3));
+    }
+
+    private void selectTab(int index) {
+        // Reset all tabs to unselected state
+        resetTab(navHomeLayout, navHomeIcon, navHomeText);
+        resetTab(navFavLayout, navFavIcon, navFavText);
+        resetTab(navOfferLayout, navOfferIcon, navOfferText);
+        resetTab(navCartLayout, navCartIcon, navCartText);
+
+        // Activate selected tab
+        switch (index) {
+            case 0:
+                activateTab(navHomeLayout, navHomeIcon, navHomeText);
+                break;
+            case 1:
+                activateTab(navFavLayout, navFavIcon, navFavText);
+                break;
+            case 2:
+                activateTab(navOfferLayout, navOfferIcon, navOfferText);
+                break;
+            case 3:
+                activateTab(navCartLayout, navCartIcon, navCartText);
+                break;
+        }
+    }
+
+    private void resetTab(LinearLayout layout, ImageView icon, TextView text) {
+        layout.setBackground(null);
+        layout.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1.0f));
+        icon.setColorFilter(Color.parseColor("#B0B0B0"));
+        text.setVisibility(View.GONE);
+    }
+
+    private void activateTab(LinearLayout layout, ImageView icon, TextView text) {
+        layout.setBackgroundResource(R.drawable.bg_active_nav_tab);
+        layout.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1.3f));
+        icon.setColorFilter(Color.parseColor("#FFFFFF"));
+        text.setVisibility(View.VISIBLE);
     }
 
     private void setupCategories() {
@@ -175,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        autoScrollHandler.postDelayed(autoScrollRunnable, 3000);
+        autoScrollHandler.postDelayed(autoScrollRunnable, 2500);
     }
 
     @Override

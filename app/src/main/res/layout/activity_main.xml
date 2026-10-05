@@ -35,50 +35,85 @@
                     android:scaleType="centerCrop"
                     tools:src="@android:drawable/ic_menu_gallery" />
 
-                <!-- Header Overlay (Profile & Greeting) -->
-                <RelativeLayout
-                    android:layout_width="match_parent"
+                <!-- Frosted Glass Half-Pill Container -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardProfilePill"
+                    android:layout_width="248dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="45dp"
-                    android:padding="16dp">
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginStart="-20dp"
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/ivUserProfile"
-                        android:layout_width="44dp"
-                        android:layout_height="44dp"
-                        android:layout_alignParentStart="true"
-                        android:scaleType="centerCrop"
-                        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
-                        tools:src="@android:drawable/ic_menu_gallery" />
+                    app:cardBackgroundColor="@android:color/transparent"
+                    app:cardCornerRadius="28dp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="#40FFFFFF"
+                    app:strokeWidth="1dp">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="12dp"
-                        android:layout_toEndOf="@id/ivUserProfile"
-                        android:orientation="vertical">
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
 
-                        <TextView
-                            android:id="@+id/tvUserGreeting"
-                            android:layout_width="wrap_content"
+                        <!-- 8bitlab BlurView (FIXED PACKAGE NAME) -->
+                        <eightbitlab.com.blurview.BlurView
+                            android:id="@+id/blurHeaderPill"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_alignStart="@id/layoutProfileContent"
+                            android:layout_alignEnd="@id/layoutProfileContent"
+                            android:layout_alignTop="@id/layoutProfileContent"
+                            android:layout_alignBottom="@id/layoutProfileContent"
+                            app:blurOverlayColor="#25FFFFFF" />
+
+                        <!-- Foreground Content -->
+                        <LinearLayout
+                            android:id="@+id/layoutProfileContent"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Morning, Romina"
-                            android:textColor="#ffffff"
-                            android:textSize="17sp"
-                            android:textStyle="bold" />
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="8dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="1dp"
-                            android:ellipsize="end"
-                            android:singleLine="true"
-                            android:text="Farm fresh. For you."
-                            android:textColor="#ffffff"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-                </RelativeLayout>
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:id="@+id/ivUserProfile"
+                                android:layout_width="44dp"
+                                android:layout_height="44dp"
+                                android:scaleType="centerCrop"
+                                android:layout_marginStart="40dp"
+                                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+                                tools:src="@android:drawable/ic_menu_gallery" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginEnd="14dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvUserGreeting"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Morning, Romina"
+                                    android:textColor="#ffffff"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="1dp"
+                                    android:ellipsize="end"
+                                    android:singleLine="true"
+                                    android:text="Farm fresh. For you."
+                                    android:textColor="#E0E0E0"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
 
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -153,7 +188,7 @@
                     android:src="@drawable/filter2" />
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Notification Button Card (Placed right after Filter) -->
+            <!-- Notification Button Card -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="38dp"
                 android:layout_height="38dp"
@@ -390,23 +425,25 @@
             android:orientation="horizontal"
             android:paddingHorizontal="8dp">
 
-            <!-- Active Selected Tab Container -->
+            <!-- HOME TAB -->
             <LinearLayout
+                android:id="@+id/navHomeLayout"
                 android:layout_width="0dp"
                 android:layout_height="44dp"
-                android:layout_weight="1.2"
-                android:background="@drawable/bg_active_nav_tab"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingHorizontal="12dp">
 
                 <ImageView
+                    android:id="@+id/navHomeIcon"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@android:drawable/ic_menu_compass"
-                    app:tint="#FFFFFF" />
+                    android:src="@drawable/home"
+                    app:tint="#000000" />
 
                 <TextView
+                    android:id="@+id/navHomeText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
@@ -414,38 +451,99 @@
                     android:text="Home"
                     android:textColor="#FFFFFF"
                     android:textSize="13sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone" />
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/navFavorites"
+            <!-- FAVORITES TAB -->
+            <LinearLayout
+                android:id="@+id/navFavLayout"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="44dp"
                 android:layout_weight="1"
-                android:padding="12dp"
-                android:scaleType="fitCenter"
-                android:src="@android:drawable/btn_star_big_off"
-                app:tint="#B0B0B0" />
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingHorizontal="12dp">
 
-            <ImageView
-                android:id="@+id/navCart"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:padding="12dp"
-                android:scaleType="fitCenter"
-                android:src="@android:drawable/ic_menu_view"
-                app:tint="#B0B0B0" />
+                <ImageView
+                    android:id="@+id/navFavIcon"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/heart"
+                    app:tint="#000000" />
 
-            <ImageView
-                android:id="@+id/navProfile"
+                <TextView
+                    android:id="@+id/navFavText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:singleLine="true"
+                    android:text="Favorite"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <!-- OFFER TAB -->
+            <LinearLayout
+                android:id="@+id/navOfferLayout"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="44dp"
                 android:layout_weight="1"
-                android:padding="12dp"
-                android:scaleType="fitCenter"
-                android:src="@android:drawable/ic_menu_myplaces"
-                app:tint="#B0B0B0" />
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingHorizontal="12dp">
+
+                <ImageView
+                    android:id="@+id/navOfferIcon"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/tag2"
+                    app:tint="#000000" />
+
+                <TextView
+                    android:id="@+id/navOfferText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:singleLine="true"
+                    android:text="Cart"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <!-- CART TAB -->
+            <LinearLayout
+                android:id="@+id/navCartLayout"
+                android:layout_width="0dp"
+                android:layout_height="44dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingHorizontal="12dp">
+
+                <ImageView
+                    android:id="@+id/navCartIcon"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/bag3"
+                    app:tint="#000000" />
+
+                <TextView
+                    android:id="@+id/navCartText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:singleLine="true"
+                    android:text="Profile"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+            </LinearLayout>
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
