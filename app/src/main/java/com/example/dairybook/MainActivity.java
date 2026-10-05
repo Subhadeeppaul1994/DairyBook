@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         rvDealOfTheDay = findViewById(R.id.rvDealOfTheDay);
         rvNewLaunch = findViewById(R.id.rvNewLaunch);
 
-        // Bind Bottom Navigation (FIXED: Corrected navOffer IDs)
+        // Bind Bottom Navigation
         navHomeLayout = findViewById(R.id.navHomeLayout);
         navFavLayout = findViewById(R.id.navFavLayout);
         navOfferLayout = findViewById(R.id.navOfferLayout);
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         // Setup Glass Blur on Header Pill Container
         setupHeaderBlur();
 
-        // Load Profile Image from Cloudinary (FIXED: Neutral dark gray placeholder instead of gallery grid icon)
+        // Load Profile Image from Cloudinary
         String profileImageUrl = "https://res.cloudinary.com/bxfg4024/image/upload/v1791023620/profile_image.jpg";
         Glide.with(this)
                 .load(profileImageUrl)
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                 .error(android.R.color.darker_gray)
                 .into(ivUserProfile);
 
-        // Load Hero Banner Image from Cloudinary (FIXED: Neutral dark gray placeholder instead of gallery grid icon)
+        // Load Hero Banner Image from Cloudinary
         String heroBannerUrl = "https://res.cloudinary.com/bxfg4024/image/upload/v1791190072/IMG_20261005_141611.png";
         Glide.with(this)
                 .load(heroBannerUrl)
@@ -161,7 +161,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void activateTab(LinearLayout layout, ImageView icon, TextView text) {
         layout.setBackgroundResource(R.drawable.bg_active_nav_tab);
-        layout.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1.3f));
+        // Adjusted layout weight to 1.1f for a compact green active indicator width
+        layout.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1.1f));
         icon.setColorFilter(Color.parseColor("#FFFFFF"));
         text.setVisibility(View.VISIBLE);
     }

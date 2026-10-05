@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
-    <solid android:color="#008000" />
-    <corners android:radius="21dp" />
-</shape>
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:insetLeft="6dp"
+    android:insetRight="6dp"
+    android:insetTop="8dp"
+    android:insetBottom="8dp">
+
+    <shape android:shape="rectangle">
+        <solid android:color="#008000" />
+        <!-- Set a high radius (e.g. 100dp) for a smooth rounded pill shape -->
+        <corners android:radius="100dp" />
+    </shape>
+
+</inset>
