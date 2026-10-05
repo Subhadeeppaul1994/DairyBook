@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 .into(ivUserProfile);
 
         // Load Hero Banner Image from Cloudinary (Replace with your hero banner URL)
-        String heroBannerUrl = "https://res.cloudinary.com/bxfg4024/image/upload/v1791018259/banner_milk.png";
+        String heroBannerUrl = "https://res.cloudinary.com/bxfg4024/image/upload/v1791190072/IMG_20261005_141611.png";
         Glide.with(this)
                 .load(heroBannerUrl)
                 .placeholder(android.R.drawable.ic_menu_gallery)
