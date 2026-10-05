@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFF8F5">
+    android:background="#FFFFFF">
 
     <!-- FIXED TOP HEADER -->
     <RelativeLayout
@@ -225,7 +225,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:text="See all"
-                    android:textColor="#FF5722"
+                    android:textColor="#595959"
                     android:textSize="14sp"
                     android:textStyle="bold" />
             </RelativeLayout>
@@ -262,7 +262,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:text="See all"
-                    android:textColor="#FF5722"
+                    android:textColor="#595959"
                     android:textSize="14sp"
                     android:textStyle="bold" />
             </RelativeLayout>
@@ -299,7 +299,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:text="See all"
-                    android:textColor="#FF5722"
+                    android:textColor="#595959"
                     android:textSize="14sp"
                     android:textStyle="bold" />
             </RelativeLayout>

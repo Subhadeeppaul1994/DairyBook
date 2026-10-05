@@ -12,9 +12,9 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         app:cardBackgroundColor="#FFFFFF"
-        app:cardCornerRadius="0dp"
+        app:cardCornerRadius="8dp"
         app:cardElevation="0dp"
-        app:strokeColor="#FFE5DB"
+        app:strokeColor="#cccccc"
         app:strokeWidth="1dp">
 
         <ImageView
