@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private ShapeableImageView ivUserProfile;
+    private ImageView ivHeroBanner;
     private ViewPager2 bannerViewPager;
     private TextView tvBannerCounter;
     private LinearLayout layoutDotsIndicator;
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Bind Views
         ivUserProfile = findViewById(R.id.ivUserProfile);
+        ivHeroBanner = findViewById(R.id.ivHeroBanner);
         bannerViewPager = findViewById(R.id.bannerViewPager);
         tvBannerCounter = findViewById(R.id.tvBannerCounter);
         layoutDotsIndicator = findViewById(R.id.layoutDotsIndicator);
@@ -54,6 +57,14 @@ public class MainActivity extends AppCompatActivity {
                 .placeholder(android.R.drawable.ic_menu_gallery)
                 .error(android.R.drawable.ic_menu_gallery)
                 .into(ivUserProfile);
+
+        // Load Hero Banner Image from Cloudinary (Replace with your hero banner URL)
+        String heroBannerUrl = "https://res.cloudinary.com/bxfg4024/image/upload/v1791018259/banner_milk.png";
+        Glide.with(this)
+                .load(heroBannerUrl)
+                .placeholder(android.R.drawable.ic_menu_gallery)
+                .error(android.R.drawable.ic_menu_gallery)
+                .into(ivHeroBanner);
 
         // Setup Sections
         setupBanners();

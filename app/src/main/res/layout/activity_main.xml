@@ -6,74 +6,168 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF">
 
-    <!-- FIXED TOP HEADER -->
-    <RelativeLayout
-        android:id="@+id/topHeader"
+    <!-- FIXED TOP HEADER CONTAINER -->
+    <LinearLayout
+        android:id="@+id/topFixedHeader"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_alignParentTop="true"
-        android:background="#FFF8F5"
-        android:paddingHorizontal="20dp"
-        android:paddingTop="20dp"
-        android:paddingBottom="12dp"
-        android:translationZ="4dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/ivUserProfile"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="32dp"
-            android:scaleType="centerCrop"
-            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
-            tools:src="@android:drawable/ic_menu_gallery" />
+        <!-- HERO BANNER WITH OVERLAID HEADER -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:layout_marginHorizontal="0dp"
+            android:layout_marginTop="0dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="0dp">
 
-        <ImageButton
-            android:id="@+id/btnNotification"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/notification" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
+                <!-- Hero Background Image (Loaded via Cloudinary) -->
+                <ImageView
+                    android:id="@+id/ivHeroBanner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    tools:src="@android:drawable/ic_menu_gallery" />
+
+                <!-- Header Overlay (Profile, Greeting, Notification) -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="45dp"
+                    android:padding="16dp">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/ivUserProfile"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:layout_alignParentStart="true"
+                        android:scaleType="centerCrop"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+                        tools:src="@android:drawable/ic_menu_gallery" />
+
+                    <ImageButton
+                        android:id="@+id/btnNotification"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/notification" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:layout_toStartOf="@id/btnNotification"
+                        android:layout_toEndOf="@id/ivUserProfile"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvUserGreeting"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Morning, Romina"
+                            android:textColor="#111111"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:text="Farm fresh. For you."
+                            android:textColor="#555555"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+            </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Search Bar Block -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="12dp"
-            android:layout_toStartOf="@id/btnNotification"
-            android:layout_toEndOf="@id/ivUserProfile"
-            android:orientation="vertical">
+            android:layout_marginTop="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="20dp">
 
-            <TextView
-                android:id="@+id/tvUserGreeting"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Morning, Romina"
-                android:textColor="#111111"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="25dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#cccccc"
+                app:strokeWidth="1dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:text="What fresh dairy product do you need today?"
-                android:textColor="#777777"
-                android:textSize="13sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@android:drawable/ic_menu_search"
+                        app:tint="#888888" />
+
+                    <EditText
+                        android:id="@+id/etSearch"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:background="@null"
+                        android:hint="Search fresh milk, butter, cheese..."
+                        android:imeOptions="actionSearch"
+                        android:inputType="text"
+                        android:textColor="#111111"
+                        android:textColorHint="#999999"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="12dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="22.5dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#cccccc"
+                app:strokeWidth="1dp">
+
+                <ImageButton
+                    android:id="@+id/btnFilter"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="10dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/filter2" />
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <!-- SCROLLABLE CONTENT -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottomNavigationCard"
-        android:layout_below="@id/topHeader"
+        android:layout_below="@id/topFixedHeader"
         android:clipToPadding="false"
         android:fillViewport="true">
 
@@ -81,70 +175,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="24dp">
+            android:paddingBottom="80dp">
 
-            <!-- Search Bar Block -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingHorizontal="20dp">
-
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="0dp"
-                    android:layout_height="45dp"
-                    android:layout_weight="1"
-                    app:cardBackgroundColor="#FFFFFF"
-                    app:cardCornerRadius="25dp"
-                    app:cardElevation="0dp"
-                    app:strokeColor="#FFE5DB"
-                    app:strokeWidth="1dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingHorizontal="16dp">
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@android:drawable/ic_menu_search"
-                            app:tint="#888888" />
-
-                        <EditText
-                            android:id="@+id/etSearch"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="10dp"
-                            android:background="@null"
-                            android:hint="Search fresh milk, butter, cheese..."
-                            android:imeOptions="actionSearch"
-                            android:inputType="text"
-                            android:textColor="#111111"
-                            android:textColorHint="#999999"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <ImageButton
-                    android:id="@+id/btnFilter"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="12dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/filter" />
-            </LinearLayout>
-
-            <!-- Top Banner ViewPager2 Slider -->
+            <!-- Middle ViewPager2 Offer Slider -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="18dp">
+                android:layout_marginTop="16dp">
 
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/bannerViewPager"
@@ -318,7 +355,7 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- Bottom Navigation Bar -->
+    <!-- FLOATING BOTTOM NAVIGATION BAR -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/bottomNavigationCard"
         android:layout_width="match_parent"
@@ -328,7 +365,7 @@
         android:layout_marginBottom="16dp"
         app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="32dp"
-        app:cardElevation="8dp"
+        app:cardElevation="4dp"
         app:strokeWidth="0dp">
 
         <LinearLayout
