@@ -9,6 +9,7 @@
     android:paddingVertical="6dp">
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardCategory"
         android:layout_width="60dp"
         android:layout_height="60dp"
         app:cardBackgroundColor="#FFFFFF"

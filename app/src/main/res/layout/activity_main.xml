@@ -16,10 +16,10 @@
         <!-- HERO BANNER WITH OVERLAID HEADER -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="220dp"
+            android:layout_height="190dp"
             android:layout_marginHorizontal="0dp"
             android:layout_marginTop="0dp"
-            app:cardCornerRadius="24dp"
+            app:cardCornerRadius="0dp"
             app:cardElevation="0dp"
             app:strokeWidth="0dp">
 
@@ -35,7 +35,7 @@
                     android:scaleType="centerCrop"
                     tools:src="@android:drawable/ic_menu_gallery" />
 
-                <!-- Header Overlay (Profile, Greeting, Notification) -->
+                <!-- Header Overlay (Profile & Greeting) -->
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -51,21 +51,11 @@
                         app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
                         tools:src="@android:drawable/ic_menu_gallery" />
 
-                    <ImageButton
-                        android:id="@+id/btnNotification"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/notification" />
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="12dp"
-                        android:layout_marginEnd="12dp"
-                        android:layout_toStartOf="@id/btnNotification"
                         android:layout_toEndOf="@id/ivUserProfile"
                         android:orientation="vertical">
 
@@ -74,7 +64,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Morning, Romina"
-                            android:textColor="#111111"
+                            android:textColor="#ffffff"
                             android:textSize="17sp"
                             android:textStyle="bold" />
 
@@ -85,7 +75,7 @@
                             android:ellipsize="end"
                             android:singleLine="true"
                             android:text="Farm fresh. For you."
-                            android:textColor="#555555"
+                            android:textColor="#ffffff"
                             android:textSize="12sp" />
                     </LinearLayout>
                 </RelativeLayout>
@@ -93,15 +83,17 @@
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Search Bar Block -->
+        <!-- Search Bar Block with Filter & Notification -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:layout_marginBottom="12dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingHorizontal="20dp">
 
+            <!-- Search Field -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
                 android:layout_height="45dp"
@@ -140,10 +132,11 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- Filter Button Card -->
             <com.google.android.material.card.MaterialCardView
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_marginStart="12dp"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_marginStart="10dp"
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="22.5dp"
                 app:cardElevation="0dp"
@@ -159,6 +152,28 @@
                     android:scaleType="fitCenter"
                     android:src="@drawable/filter2" />
             </com.google.android.material.card.MaterialCardView>
+
+            <!-- Notification Button Card (Placed right after Filter) -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_marginStart="10dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="22.5dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#cccccc"
+                app:strokeWidth="1dp">
+
+                <ImageButton
+                    android:id="@+id/btnNotification"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="8dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/notification" />
+            </com.google.android.material.card.MaterialCardView>
+
         </LinearLayout>
 
     </LinearLayout>
