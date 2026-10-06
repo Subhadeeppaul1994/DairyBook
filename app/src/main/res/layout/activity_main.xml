@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5">
+    android:background="#F8F9FA">
 
     <!-- FIXED TOP HEADER CONTAINER -->
     <LinearLayout
@@ -32,8 +32,7 @@
                     android:id="@+id/ivHeroBanner"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    tools:src="@android:drawable/ic_menu_gallery" />
+                    android:scaleType="centerCrop" />
 
                 <!-- Frosted Glass Half-Pill Container with Hamburger Icon -->
                 <com.google.android.material.card.MaterialCardView
@@ -80,7 +79,7 @@
                                 android:src="@drawable/burger"
                                 app:tint="#FFFFFF" />
 
-                            <!-- User Profile Picture (Hidden by default; can be un-hidden if needed) -->
+                            <!-- User Profile Picture -->
                             <com.google.android.material.imageview.ShapeableImageView
                                 android:id="@+id/ivUserProfile"
                                 android:layout_width="44dp"
@@ -116,7 +115,7 @@
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="25dp"
                 app:cardElevation="0dp"
-                app:strokeColor="#cccccc"
+                app:strokeColor="#CCCCCC"
                 app:strokeWidth="1dp">
 
                 <LinearLayout
@@ -155,7 +154,7 @@
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="22.5dp"
                 app:cardElevation="0dp"
-                app:strokeColor="#cccccc"
+                app:strokeColor="#CCCCCC"
                 app:strokeWidth="1dp">
 
                 <ImageButton
@@ -176,7 +175,7 @@
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="22.5dp"
                 app:cardElevation="0dp"
-                app:strokeColor="#cccccc"
+                app:strokeColor="#CCCCCC"
                 app:strokeWidth="1dp">
 
                 <ImageButton
@@ -197,6 +196,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/bottomNavigationCard"
         android:layout_below="@id/topFixedHeader"
         android:clipToPadding="false"
         android:fillViewport="true">
@@ -205,7 +205,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="80dp">
+            android:paddingBottom="20dp">
 
             <!-- Categories Horizontal List -->
             <TextView
@@ -270,8 +270,6 @@
                     android:textSize="11sp"
                     android:textStyle="bold" />
             </RelativeLayout>
-
-
 
             <!-- SECTION 1: Fresh Products -->
             <RelativeLayout
@@ -387,42 +385,45 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- FLOATING BOTTOM NAVIGATION BAR -->
+    <!-- PROFESSIONAL BOTTOM NAVIGATION BAR -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/bottomNavigationCard"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="64dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginBottom="16dp"
         app:cardBackgroundColor="#FFFFFF"
-        app:cardCornerRadius="32dp"
-        app:cardElevation="4dp"
-        app:strokeWidth="0dp">
+        app:cardCornerRadius="0dp"
+        app:cardElevation="8dp"
+        app:strokeColor="#EEEEEE"
+        app:strokeWidth="1dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:orientation="horizontal"
-            android:paddingHorizontal="8dp">
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="8dp">
 
             <!-- HOME TAB -->
             <LinearLayout
                 android:id="@+id/navHomeLayout"
                 android:layout_width="0dp"
-                android:layout_height="44dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingHorizontal="12dp">
 
                 <ImageView
                     android:id="@+id/navHomeIcon"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:src="@drawable/home"
-                    app:tint="#000000" />
+                    app:tint="#888888" />
 
                 <TextView
                     android:id="@+id/navHomeText"
@@ -431,8 +432,8 @@
                     android:layout_marginStart="6dp"
                     android:singleLine="true"
                     android:text="Home"
-                    android:textColor="#FFFFFF"
-                    android:textSize="13sp"
+                    android:textColor="#008000"
+                    android:textSize="12sp"
                     android:textStyle="bold"
                     android:visibility="gone" />
             </LinearLayout>
@@ -441,18 +442,21 @@
             <LinearLayout
                 android:id="@+id/navFavLayout"
                 android:layout_width="0dp"
-                android:layout_height="44dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingHorizontal="12dp">
 
                 <ImageView
                     android:id="@+id/navFavIcon"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:src="@drawable/heart"
-                    app:tint="#000000" />
+                    app:tint="#888888" />
 
                 <TextView
                     android:id="@+id/navFavText"
@@ -461,28 +465,31 @@
                     android:layout_marginStart="6dp"
                     android:singleLine="true"
                     android:text="Favorite"
-                    android:textColor="#FFFFFF"
-                    android:textSize="13sp"
+                    android:textColor="#008000"
+                    android:textSize="12sp"
                     android:textStyle="bold"
                     android:visibility="gone" />
             </LinearLayout>
 
-            <!-- OFFER TAB -->
+            <!-- OFFER / CART TAB -->
             <LinearLayout
                 android:id="@+id/navOfferLayout"
                 android:layout_width="0dp"
-                android:layout_height="44dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingHorizontal="12dp">
 
                 <ImageView
                     android:id="@+id/navOfferIcon"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:src="@drawable/tag2"
-                    app:tint="#000000" />
+                    app:tint="#888888" />
 
                 <TextView
                     android:id="@+id/navOfferText"
@@ -490,29 +497,32 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
                     android:singleLine="true"
-                    android:text="Cart"
-                    android:textColor="#FFFFFF"
-                    android:textSize="13sp"
+                    android:text="Offers"
+                    android:textColor="#008000"
+                    android:textSize="12sp"
                     android:textStyle="bold"
                     android:visibility="gone" />
             </LinearLayout>
 
-            <!-- CART TAB -->
+            <!-- PROFILE TAB -->
             <LinearLayout
                 android:id="@+id/navCartLayout"
                 android:layout_width="0dp"
-                android:layout_height="44dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingHorizontal="12dp">
 
                 <ImageView
                     android:id="@+id/navCartIcon"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:src="@drawable/bag3"
-                    app:tint="#000000" />
+                    app:tint="#888888" />
 
                 <TextView
                     android:id="@+id/navCartText"
@@ -520,9 +530,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
                     android:singleLine="true"
-                    android:text="Profile"
-                    android:textColor="#FFFFFF"
-                    android:textSize="13sp"
+                    android:text="Cart"
+                    android:textColor="#008000"
+                    android:textSize="12sp"
                     android:textStyle="bold"
                     android:visibility="gone" />
             </LinearLayout>

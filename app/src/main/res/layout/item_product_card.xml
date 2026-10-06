@@ -24,9 +24,7 @@
         <!-- Top Image Container with Heart Icon & Veg Badge -->
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="105dp"
-            android:clipChildren="false"
-            android:clipToPadding="false">
+            android:layout_height="105dp">
 
             <!-- Product Image -->
             <ImageView
@@ -36,27 +34,18 @@
                 android:padding="4dp"
                 android:scaleType="fitCenter" />
 
-            <!-- FrameLayout Container for Favorite Heart Icon -->
-            <FrameLayout
+            <!-- Favorite Heart Icon with Custom Circular Ripple -->
+            <ImageView
+                android:id="@+id/ivFavorite"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:clipChildren="false"
-                android:clipToPadding="false">
-
-                <!-- Favorite Heart Icon with Round Borderless Ripple Overlay -->
-                <ImageView
-                    android:id="@+id/ivFavorite"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:layout_gravity="center"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:padding="2dp"
-                    android:src="@drawable/ic_heart_outline" />
-            </FrameLayout>
+                android:background="@drawable/ripple_circular"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="4dp"
+                android:src="@drawable/ic_heart_outline" />
 
             <!-- Green Veg Dot Symbol -->
             <ImageView
@@ -69,7 +58,7 @@
 
         </RelativeLayout>
 
-        <!-- Discount Badge (e.g., 29% OFF) -->
+        <!-- Discount Badge -->
         <TextView
             android:id="@+id/tvDiscountBadge"
             android:layout_width="wrap_content"
@@ -84,7 +73,7 @@
             android:visibility="visible"
             tools:text="29% OFF" />
 
-        <!-- Price Container (Discounted Price + Original Strikethrough Price) -->
+        <!-- Price Container -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -143,23 +132,93 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-        <!-- Bottom Action Row: Weight Dropdown & Cart Button / Stepper -->
+        <!-- Bottom Action Row -->
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:clipChildren="false"
-            android:clipToPadding="false">
+            android:layout_height="32dp"
+            android:layout_marginBottom="2dp">
 
-            <!-- Weight / Unit Dropdown Pill -->
+            <!-- Right Action Container (Holds both Bag & Stepper in fixed end alignment) -->
+            <FrameLayout
+                android:id="@+id/layoutActionContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true">
+
+                <!-- Bag Add to Cart Button -->
+                <ImageView
+                    android:id="@+id/btnAddToCart"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="end|center_vertical"
+                    android:background="@drawable/ripple_circular"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="3dp"
+                    android:src="@drawable/ic_bag_outline" />
+
+                <!-- Quantity Counter Stepper (- 1 +) -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/layoutQuantityStepper"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_gravity="end|center_vertical"
+                    android:visibility="gone"
+                    app:cardBackgroundColor="#008000"
+                    app:cardCornerRadius="15dp"
+                    app:cardElevation="0dp"
+                    app:strokeWidth="0dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="6dp">
+
+                        <TextView
+                            android:id="@+id/btnMinus"
+                            android:layout_width="22dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="-"
+                            android:textColor="#FFFFFF"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvQuantityCount"
+                            android:layout_width="20dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:textColor="#FFFFFF"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            tools:text="1" />
+
+                        <TextView
+                            android:id="@+id/btnPlus"
+                            android:layout_width="22dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="+"
+                            android:textColor="#FFFFFF"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </FrameLayout>
+
+            <!-- Weight / Unit Dropdown Pill (Anchored to start, stays rock solid) -->
             <LinearLayout
                 android:id="@+id/layoutUnitSelector"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="5dp"
-                android:gravity="center"
+                android:layout_toStartOf="@+id/layoutActionContainer"
+                android:gravity="center_vertical|start"
                 android:orientation="horizontal">
 
                 <TextView
@@ -169,88 +228,11 @@
                     android:textColor="#008000"
                     android:textSize="12sp"
                     android:textStyle="bold"
+                    android:layout_marginStart="5dp"
                     tools:text="1 kg" />
 
-                <ImageView
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
-                    android:layout_marginStart="2dp"
-                    app:tint="#008000" />
+
             </LinearLayout>
-
-            <!-- FrameLayout Container for Bag Add to Cart Button -->
-            <FrameLayout
-                android:layout_width="34dp"
-                android:layout_height="34dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:clipChildren="false"
-                android:clipToPadding="false">
-
-                <!-- Bag Add to Cart Button -->
-                <ImageView
-                    android:id="@+id/btnAddToCart"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:padding="2dp"
-                    android:src="@drawable/ic_bag_outline" />
-            </FrameLayout>
-
-            <!-- Quantity Counter Stepper (- 1 +) -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/layoutQuantityStepper"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:visibility="gone"
-                app:cardBackgroundColor="#008000"
-                app:cardCornerRadius="15dp"
-                app:cardElevation="0dp"
-                app:strokeWidth="0dp">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="6dp">
-
-                    <TextView
-                        android:id="@+id/btnMinus"
-                        android:layout_width="22dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="-"
-                        android:textColor="#FFFFFF"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tvQuantityCount"
-                        android:layout_width="20dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:textColor="#FFFFFF"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        tools:text="1" />
-
-                    <TextView
-                        android:id="@+id/btnPlus"
-                        android:layout_width="22dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="+"
-                        android:textColor="#FFFFFF"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
 
         </RelativeLayout>
     </LinearLayout>

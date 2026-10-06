@@ -7,6 +7,8 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.transition.AutoTransition;
+import android.transition.TransitionManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private BlurView blurHeaderPill;
 
     // Bottom Navigation Views
+    private ViewGroup bottomNavParent;
     private LinearLayout navHomeLayout, navFavLayout, navOfferLayout, navCartLayout;
     private ImageView navHomeIcon, navFavIcon, navOfferIcon, navCartIcon;
     private TextView navHomeText, navFavText, navOfferText, navCartText;
@@ -64,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         rvNewLaunch = findViewById(R.id.rvNewLaunch);
 
         // Bind Bottom Navigation
+        bottomNavParent = findViewById(R.id.bottomNavigationCard);
         navHomeLayout = findViewById(R.id.navHomeLayout);
         navFavLayout = findViewById(R.id.navFavLayout);
         navOfferLayout = findViewById(R.id.navOfferLayout);
@@ -129,6 +133,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void selectTab(int index) {
+        // Smooth layout transition for expanding/collapsing pill tabs
+        AutoTransition transition = new AutoTransition();
+        transition.setDuration(220);
+        TransitionManager.beginDelayedTransition(bottomNavParent, transition);
+
         resetTab(navHomeLayout, navHomeIcon, navHomeText);
         resetTab(navFavLayout, navFavIcon, navFavText);
         resetTab(navOfferLayout, navOfferIcon, navOfferText);
@@ -152,15 +161,21 @@ public class MainActivity extends AppCompatActivity {
 
     private void resetTab(LinearLayout layout, ImageView icon, TextView text) {
         layout.setBackground(null);
-        layout.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1.0f));
-        icon.setColorFilter(Color.parseColor("#B0B0B0"));
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) layout.getLayoutParams();
+        params.weight = 1.0f;
+        layout.setLayoutParams(params);
+
+        icon.setColorFilter(Color.parseColor("#757575")); // Neutral grayish tint for inactive state
         text.setVisibility(View.GONE);
     }
 
     private void activateTab(LinearLayout layout, ImageView icon, TextView text) {
         layout.setBackgroundResource(R.drawable.bg_active_nav_tab);
-        layout.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1.1f));
-        icon.setColorFilter(Color.parseColor("#FFFFFF"));
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) layout.getLayoutParams();
+        params.weight = 1.35f; // Slight expansion for active pill effect
+        layout.setLayoutParams(params);
+
+        icon.setColorFilter(Color.parseColor("#008000")); // Theme primary green color
         text.setVisibility(View.VISIBLE);
     }
 
