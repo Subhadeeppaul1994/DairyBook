@@ -14,13 +14,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.ArrayList;
@@ -31,13 +36,21 @@ import eightbitlab.com.blurview.RenderScriptBlur;
 
 public class MainActivity extends AppCompatActivity {
 
+    private DrawerLayout drawerLayout;
+    private ImageView ivMenu;
     private ShapeableImageView ivUserProfile;
     private ImageView ivHeroBanner;
     private ViewPager2 bannerViewPager;
     private TextView tvBannerCounter;
     private LinearLayout layoutDotsIndicator;
-    private RecyclerView rvCategories, rvFreshProducts, rvDealOfTheDay, rvNewLaunch;
-    private BlurView blurHeaderPill;
+    private RecyclerView rvCategories, rvFreshProducts, rvDealOfTheDay, rvComboOffer, rvNewLaunch;
+    private BlurView blurHeaderPill, blurDrawer;
+
+    // Drawer View Elements
+    private ShapeableImageView ivDrawerProfile;
+    private TextView tvDrawerUserName, tvDrawerUserPhone, tvDrawerUserAddress;
+    private LinearLayout btnDrawerEditProfile;
+    private MaterialButton btnDrawerLogout;
 
     // Bottom Navigation Views
     private ViewGroup bottomNavParent;
@@ -54,7 +67,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Bind Views
+        // Bind Drawer Layout & Menu Icon
+        drawerLayout = findViewById(R.id.drawerLayout);
+        ivMenu = findViewById(R.id.ivMenu);
+
+        // Remove dark default scrim overlay to preserve full underlying colors
+        drawerLayout.setScrimColor(Color.TRANSPARENT);
+
+        // Bind Main Views
         ivUserProfile = findViewById(R.id.ivUserProfile);
         ivHeroBanner = findViewById(R.id.ivHeroBanner);
         blurHeaderPill = findViewById(R.id.blurHeaderPill);
@@ -64,7 +84,17 @@ public class MainActivity extends AppCompatActivity {
         rvCategories = findViewById(R.id.rvCategories);
         rvFreshProducts = findViewById(R.id.rvFreshProducts);
         rvDealOfTheDay = findViewById(R.id.rvDealOfTheDay);
+        rvComboOffer = findViewById(R.id.rvComboOffer);
         rvNewLaunch = findViewById(R.id.rvNewLaunch);
+
+        // Bind Drawer Menu Views
+        blurDrawer = findViewById(R.id.blurDrawer);
+        ivDrawerProfile = findViewById(R.id.ivDrawerProfile);
+        tvDrawerUserName = findViewById(R.id.tvDrawerUserName);
+        tvDrawerUserPhone = findViewById(R.id.tvDrawerUserPhone);
+        tvDrawerUserAddress = findViewById(R.id.tvDrawerUserAddress);
+        btnDrawerEditProfile = findViewById(R.id.btnDrawerEditProfile);
+        btnDrawerLogout = findViewById(R.id.btnDrawerLogout);
 
         // Bind Bottom Navigation
         bottomNavParent = findViewById(R.id.bottomNavigationCard);
@@ -83,10 +113,22 @@ public class MainActivity extends AppCompatActivity {
         navOfferText = findViewById(R.id.navOfferText);
         navCartText = findViewById(R.id.navCartText);
 
-        // Setup Glass Blur on Header Pill Container
+        // Setup Glass Blur on Header Pill & Drawer
         setupHeaderBlur();
+        setupDrawerBlur();
 
-        // Load Profile Image from Cloudinary
+        // Synchronize real-time drawer blur rendering on drawer motion & viewpager transitions
+        setupDrawerBlurListeners();
+
+        // Hamburger Menu Click Listener
+        if (ivMenu != null) {
+            ivMenu.setOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
+        }
+
+        // Setup Drawer Actions
+        setupDrawerActions();
+
+        // Load Images
         String profileImageUrl = "https://res.cloudinary.com/bxfg4024/image/upload/v1791023620/profile_image.jpg";
         Glide.with(this)
                 .load(profileImageUrl)
@@ -94,7 +136,12 @@ public class MainActivity extends AppCompatActivity {
                 .error(new ColorDrawable(Color.parseColor("#E0E0E0")))
                 .into(ivUserProfile);
 
-        // Load Hero Banner Image from Cloudinary
+        Glide.with(this)
+                .load(profileImageUrl)
+                .placeholder(new ColorDrawable(Color.parseColor("#E0E0E0")))
+                .error(new ColorDrawable(Color.parseColor("#E0E0E0")))
+                .into(ivDrawerProfile);
+
         String heroBannerUrl = "https://res.cloudinary.com/bxfg4024/image/upload/v1791190072/IMG_20261005_141611.png";
         Glide.with(this)
                 .load(heroBannerUrl)
@@ -102,14 +149,13 @@ public class MainActivity extends AppCompatActivity {
                 .error(new ColorDrawable(Color.parseColor("#E0E0E0")))
                 .into(ivHeroBanner);
 
-        // Setup Bottom Navigation
-        setupBottomNavigation();
-
         // Setup Sections
+        setupBottomNavigation();
         setupBanners();
         setupCategories();
         setupFreshProducts();
         setupDealOfTheDay();
+        setupComboOffer();
         setupNewLaunch();
     }
 
@@ -118,9 +164,101 @@ public class MainActivity extends AppCompatActivity {
         ViewGroup rootView = decorView.findViewById(android.R.id.content);
         Drawable windowBackground = decorView.getBackground();
 
-        blurHeaderPill.setupWith(rootView, new RenderScriptBlur(this))
-                .setFrameClearDrawable(windowBackground)
-                .setBlurRadius(16f);
+        if (blurHeaderPill != null) {
+            blurHeaderPill.setupWith(rootView, new RenderScriptBlur(this))
+                    .setFrameClearDrawable(windowBackground)
+                    .setBlurRadius(16f);
+        }
+    }
+
+    private void setupDrawerBlur() {
+        View decorView = getWindow().getDecorView();
+        ViewGroup rootView = decorView.findViewById(android.R.id.content);
+
+        if (blurDrawer != null) {
+            blurDrawer.setupWith(rootView, new RenderScriptBlur(this))
+                    .setFrameClearDrawable(null) // Ensures direct sample of actual screen content
+                    .setBlurRadius(18f);
+        }
+    }
+
+    private void setupDrawerBlurListeners() {
+        // Dynamic re-render during drawer movement
+        drawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+            @Override
+            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+                if (blurDrawer != null) {
+                    blurDrawer.invalidate();
+                }
+            }
+
+            @Override
+            public void onDrawerOpened(@NonNull View drawerView) {
+                if (blurDrawer != null) {
+                    blurDrawer.invalidate();
+                }
+            }
+        });
+    }
+
+    private void setupBanners() {
+        List<BannerItem> banners = new ArrayList<>();
+        banners.add(new BannerItem("Fresh Cow Milk", "15% off", "https://res.cloudinary.com/bxfg4024/image/upload/v1791018259/banner_milk.png"));
+        banners.add(new BannerItem("Artisanal Butter", "20% off", "https://res.cloudinary.com/bxfg4024/image/upload/v1791018546/butter_banner.png"));
+        banners.add(new BannerItem("Cottage Cheese", "10% off", "https://res.cloudinary.com/bxfg4024/image/upload/v1791018465/cheese_banner.png"));
+        banners.add(new BannerItem("Greek Yogurt Pack", "25% off", "https://res.cloudinary.com/bxfg4024/image/upload/v1791018102/banner_curd.png"));
+        banners.add(new BannerItem("Pure Desi Ghee", "30% off", "https://res.cloudinary.com/bxfg4024/image/upload/v1791018102/banner_ghee.png"));
+
+        bannerCount = banners.size();
+        BannerAdapter bannerAdapter = new BannerAdapter(banners);
+        bannerViewPager.setAdapter(bannerAdapter);
+
+        setupDotsIndicator(bannerCount);
+        updateBannerCounterAndDots(0);
+
+        // Keep drawer blur in sync with banner slide events
+        bannerViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+                if (blurDrawer != null && drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    blurDrawer.invalidate();
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                updateBannerCounterAndDots(position);
+                if (blurDrawer != null && drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    blurDrawer.invalidate();
+                }
+                autoScrollHandler.removeCallbacks(autoScrollRunnable);
+                autoScrollHandler.postDelayed(autoScrollRunnable, 3000);
+            }
+        });
+
+        autoScrollRunnable = new Runnable() {
+            @Override
+            public void run() {
+                if (bannerCount > 0) {
+                    int nextItem = (bannerViewPager.getCurrentItem() + 1) % bannerCount;
+                    bannerViewPager.setCurrentItem(nextItem, true);
+                }
+            }
+        };
+    }
+
+    private void setupDrawerActions() {
+        btnDrawerEditProfile.setOnClickListener(v -> {
+            drawerLayout.closeDrawer(GravityCompat.START);
+            Toast.makeText(MainActivity.this, "Edit Profile Clicked", Toast.LENGTH_SHORT).show();
+        });
+
+        btnDrawerLogout.setOnClickListener(v -> {
+            drawerLayout.closeDrawer(GravityCompat.START);
+            Toast.makeText(MainActivity.this, "Logging out...", Toast.LENGTH_SHORT).show();
+        });
     }
 
     private void setupBottomNavigation() {
@@ -133,7 +271,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void selectTab(int index) {
-        // Smooth layout transition for expanding/collapsing pill tabs
         AutoTransition transition = new AutoTransition();
         transition.setDuration(220);
         TransitionManager.beginDelayedTransition(bottomNavParent, transition);
@@ -165,17 +302,17 @@ public class MainActivity extends AppCompatActivity {
         params.weight = 1.0f;
         layout.setLayoutParams(params);
 
-        icon.setColorFilter(Color.parseColor("#757575")); // Neutral grayish tint for inactive state
+        icon.setColorFilter(Color.parseColor("#757575"));
         text.setVisibility(View.GONE);
     }
 
     private void activateTab(LinearLayout layout, ImageView icon, TextView text) {
         layout.setBackgroundResource(R.drawable.bg_active_nav_tab);
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) layout.getLayoutParams();
-        params.weight = 1.35f; // Slight expansion for active pill effect
+        params.weight = 1.35f;
         layout.setLayoutParams(params);
 
-        icon.setColorFilter(Color.parseColor("#008000")); // Theme primary green color
+        icon.setColorFilter(Color.parseColor("#008000"));
         text.setVisibility(View.VISIBLE);
     }
 
@@ -190,42 +327,6 @@ public class MainActivity extends AppCompatActivity {
         categories.add(new CategoryItem("Sweet", "https://res.cloudinary.com/bxfg4024/image/upload/v1791024628/sweets_icon.png"));
         rvCategories.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         rvCategories.setAdapter(new CategoryAdapter(categories));
-    }
-
-    private void setupBanners() {
-        List<BannerItem> banners = new ArrayList<>();
-        banners.add(new BannerItem("Fresh Cow Milk", "15% off", "https://res.cloudinary.com/bxfg4024/image/upload/v1791018259/banner_milk.png"));
-        banners.add(new BannerItem("Artisanal Butter", "20% off", "https://res.cloudinary.com/bxfg4024/image/upload/v1791018546/butter_banner.png"));
-        banners.add(new BannerItem("Cottage Cheese", "10% off", "https://res.cloudinary.com/bxfg4024/image/upload/v1791018465/cheese_banner.png"));
-        banners.add(new BannerItem("Greek Yogurt Pack", "25% off", "https://res.cloudinary.com/bxfg4024/image/upload/v1791018102/banner_curd.png"));
-        banners.add(new BannerItem("Pure Desi Ghee", "30% off", "https://res.cloudinary.com/bxfg4024/image/upload/v1791018102/banner_ghee.png"));
-
-        bannerCount = banners.size();
-        BannerAdapter bannerAdapter = new BannerAdapter(banners);
-        bannerViewPager.setAdapter(bannerAdapter);
-
-        setupDotsIndicator(bannerCount);
-        updateBannerCounterAndDots(0);
-
-        bannerViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                updateBannerCounterAndDots(position);
-                autoScrollHandler.removeCallbacks(autoScrollRunnable);
-                autoScrollHandler.postDelayed(autoScrollRunnable, 3000);
-            }
-        });
-
-        autoScrollRunnable = new Runnable() {
-            @Override
-            public void run() {
-                if (bannerCount > 0) {
-                    int nextItem = (bannerViewPager.getCurrentItem() + 1) % bannerCount;
-                    bannerViewPager.setCurrentItem(nextItem, true);
-                }
-            }
-        };
     }
 
     private void setupDotsIndicator(int count) {
@@ -302,6 +403,17 @@ public class MainActivity extends AppCompatActivity {
 
         rvDealOfTheDay.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         rvDealOfTheDay.setAdapter(new ProductAdapter(list));
+    }
+
+    private void setupComboOffer() {
+        List<ComboOfferItem> comboList = new ArrayList<>();
+        comboList.add(new ComboOfferItem("Breakfast Combo", "₹99", "https://res.cloudinary.com/bxfg4024/image/upload/v1791016426/milk_png.png"));
+        comboList.add(new ComboOfferItem("Dairy Delight Pack", "₹149", "https://res.cloudinary.com/bxfg4024/image/upload/v1791016426/Fresh_Paneer_Packaging_with_Herbs.png"));
+        comboList.add(new ComboOfferItem("Snack & Milk Saver", "₹199", "https://res.cloudinary.com/bxfg4024/image/upload/v1791029827/butter_pack.png"));
+        comboList.add(new ComboOfferItem("Family Ghee Combo", "₹499", "https://res.cloudinary.com/bxfg4024/image/upload/v1791016426/ghee.png"));
+
+        rvComboOffer.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        rvComboOffer.setAdapter(new ComboOfferAdapter(comboList));
     }
 
     private void setupNewLaunch() {
