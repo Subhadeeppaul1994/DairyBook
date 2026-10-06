@@ -26,14 +26,6 @@
             android:layout_width="match_parent"
             android:layout_height="105dp">
 
-            <!-- Product Image -->
-            <ImageView
-                android:id="@+id/ivProduct"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitCenter"
-                tools:src="@android:drawable/ic_menu_gallery" />
-
             <!-- Favorite Heart Icon -->
             <ImageView
                 android:id="@+id/ivFavorite"
@@ -43,6 +35,13 @@
                 android:layout_alignParentEnd="true"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/ic_heart_outline" />
+            <!-- Product Image -->
+            <ImageView
+                android:id="@+id/ivProduct"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitCenter"
+                 />
 
             <!-- Green Veg Dot Symbol -->
             <ImageView
