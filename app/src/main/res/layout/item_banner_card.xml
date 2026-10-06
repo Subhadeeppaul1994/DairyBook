@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:layout_marginHorizontal="16dp"
     app:cardCornerRadius="20dp"
-    app:cardElevation="2dp"
+    app:cardElevation="0dp"
     app:strokeWidth="0dp">
 
     <RelativeLayout
@@ -38,12 +38,12 @@
                 android:id="@+id/tvBannerSubtext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:shadowColor="#80000000"
-                android:shadowDx="1"
-                android:shadowDy="1"
-                android:shadowRadius="3"
+                android:shadowColor="#00000000"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="0"
                 android:text="ENJOY THE SPECIAL"
-                android:textColor="#FFFFFF"
+                android:textColor="#000000"
                 android:textSize="12sp"
                 android:textStyle="bold" />
 
@@ -52,12 +52,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:shadowColor="#80000000"
-                android:shadowDx="1"
-                android:shadowDy="1"
-                android:shadowRadius="3"
+                android:shadowColor="#00000000"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="0"
                 android:text="Offer Up To"
-                android:textColor="#FFFFFF"
+                android:textColor="#000000"
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
@@ -66,12 +66,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:shadowColor="#80000000"
-                android:shadowDx="1"
-                android:shadowDy="1"
-                android:shadowRadius="3"
+                android:shadowColor="#00000000"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="0"
                 android:text="20% off"
-                android:textColor="#038c13"
+                android:textColor="#FD561F"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -80,7 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="38dp"
                 android:layout_marginTop="12dp"
-                android:backgroundTint="#eb9502"
+                android:backgroundTint="#FE5722"
                 android:paddingHorizontal="20dp"
                 android:text="Shop Now"
                 android:textAllCaps="false"

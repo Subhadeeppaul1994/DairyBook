@@ -24,24 +24,39 @@
         <!-- Top Image Container with Heart Icon & Veg Badge -->
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="105dp">
+            android:layout_height="105dp"
+            android:clipChildren="false"
+            android:clipToPadding="false">
 
-            <!-- Favorite Heart Icon -->
-            <ImageView
-                android:id="@+id/ivFavorite"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_heart_outline" />
             <!-- Product Image -->
             <ImageView
                 android:id="@+id/ivProduct"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="fitCenter"
-                 />
+                android:padding="4dp"
+                android:scaleType="fitCenter" />
+
+            <!-- FrameLayout Container for Favorite Heart Icon -->
+            <FrameLayout
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:clipChildren="false"
+                android:clipToPadding="false">
+
+                <!-- Favorite Heart Icon with Round Borderless Ripple Overlay -->
+                <ImageView
+                    android:id="@+id/ivFavorite"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="2dp"
+                    android:src="@drawable/ic_heart_outline" />
+            </FrameLayout>
 
             <!-- Green Veg Dot Symbol -->
             <ImageView
@@ -122,17 +137,19 @@
             android:textStyle="bold"
             tools:text="Toastea Premium Bake Rusk With Goodness" />
 
-        <!-- Flexible Spacer: Fills vertical space to ensure identical card height -->
+        <!-- Flexible Spacer -->
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-        <!-- Bottom Action Row: Weight Dropdown & Cart Button / Stepper (Pinned to Bottom) -->
+        <!-- Bottom Action Row: Weight Dropdown & Cart Button / Stepper -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp">
+            android:layout_marginBottom="2dp"
+            android:clipChildren="false"
+            android:clipToPadding="false">
 
             <!-- Weight / Unit Dropdown Pill -->
             <LinearLayout
@@ -161,18 +178,29 @@
                     app:tint="#008000" />
             </LinearLayout>
 
-            <!-- Bag Add to Cart Button (Default State) -->
-            <ImageView
-                android:id="@+id/btnAddToCart"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+            <!-- FrameLayout Container for Bag Add to Cart Button -->
+            <FrameLayout
+                android:layout_width="34dp"
+                android:layout_height="34dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="2dp"
-                android:src="@drawable/ic_bag_outline" />
+                android:clipChildren="false"
+                android:clipToPadding="false">
 
-            <!-- Quantity Counter Stepper (- 1 +) Revealed on Click -->
+                <!-- Bag Add to Cart Button -->
+                <ImageView
+                    android:id="@+id/btnAddToCart"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="2dp"
+                    android:src="@drawable/ic_bag_outline" />
+            </FrameLayout>
+
+            <!-- Quantity Counter Stepper (- 1 +) -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/layoutQuantityStepper"
                 android:layout_width="wrap_content"
