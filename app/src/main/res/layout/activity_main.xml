@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="#F5F5F5">
 
     <!-- FIXED TOP HEADER CONTAINER -->
     <LinearLayout
@@ -35,81 +35,61 @@
                     android:scaleType="centerCrop"
                     tools:src="@android:drawable/ic_menu_gallery" />
 
-                <!-- Frosted Glass Half-Pill Container -->
+                <!-- Frosted Glass Half-Pill Container with Hamburger Icon -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardProfilePill"
-                    android:layout_width="248dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
                     android:layout_alignParentStart="true"
-                    android:layout_marginTop="40dp"
-                    android:layout_marginStart="-20dp"
-
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="50dp"
                     app:cardBackgroundColor="@android:color/transparent"
-                    app:cardCornerRadius="28dp"
+                    app:cardCornerRadius="100dp"
                     app:cardElevation="0dp"
                     app:strokeColor="#40FFFFFF"
                     app:strokeWidth="1dp">
 
                     <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-                        <!-- 8bitlab BlurView (FIXED PACKAGE NAME) -->
+                        <!-- 8bitlab BlurView -->
                         <eightbitlab.com.blurview.BlurView
                             android:id="@+id/blurHeaderPill"
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_alignStart="@id/layoutProfileContent"
-                            android:layout_alignEnd="@id/layoutProfileContent"
-                            android:layout_alignTop="@id/layoutProfileContent"
-                            android:layout_alignBottom="@id/layoutProfileContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             app:blurOverlayColor="#25FFFFFF" />
 
-                        <!-- Foreground Content -->
+                        <!-- Foreground Content Container -->
                         <LinearLayout
                             android:id="@+id/layoutProfileContent"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            android:paddingHorizontal="10dp"
-                            android:paddingVertical="8dp">
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="horizontal">
 
+                            <!-- Hamburger Menu Icon -->
+                            <ImageView
+                                android:id="@+id/ivMenu"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:clickable="true"
+                                android:contentDescription="Open Menu"
+                                android:focusable="true"
+                                android:src="@drawable/burger"
+                                app:tint="#FFFFFF" />
+
+                            <!-- User Profile Picture (Hidden by default; can be un-hidden if needed) -->
                             <com.google.android.material.imageview.ShapeableImageView
                                 android:id="@+id/ivUserProfile"
                                 android:layout_width="44dp"
                                 android:layout_height="44dp"
                                 android:scaleType="centerCrop"
-                                android:layout_marginStart="40dp"
+                                android:visibility="gone"
                                 app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
                                 tools:src="@android:drawable/ic_menu_gallery" />
 
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="5dp"
-                                android:layout_marginEnd="14dp"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/tvUserGreeting"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Morning, Romina"
-                                    android:textColor="#ffffff"
-                                    android:textSize="16sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="1dp"
-                                    android:ellipsize="end"
-                                    android:singleLine="true"
-                                    android:text="Farm fresh. For you."
-                                    android:textColor="#E0E0E0"
-                                    android:textSize="12sp" />
-                            </LinearLayout>
                         </LinearLayout>
 
                     </RelativeLayout>
@@ -131,7 +111,7 @@
             <!-- Search Field -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
-                android:layout_height="45dp"
+                android:layout_height="43dp"
                 android:layout_weight="1"
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="25dp"
@@ -183,7 +163,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:padding="10dp"
+                    android:padding="8.6dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/filter2" />
             </com.google.android.material.card.MaterialCardView>
@@ -204,7 +184,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:padding="8dp"
+                    android:padding="7.4dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/notification" />
             </com.google.android.material.card.MaterialCardView>
@@ -226,6 +206,28 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingBottom="80dp">
+
+            <!-- Categories Horizontal List -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:text="Categories"
+                android:textColor="#111111"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvCategories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_category" />
 
             <!-- Middle ViewPager2 Offer Slider -->
             <RelativeLayout
@@ -269,27 +271,7 @@
                     android:textStyle="bold" />
             </RelativeLayout>
 
-            <!-- Categories Horizontal List -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:text="Categories"
-                android:textColor="#111111"
-                android:textSize="18sp"
-                android:textStyle="bold" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvCategories"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:clipToPadding="false"
-                android:orientation="horizontal"
-                android:paddingHorizontal="16dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_category" />
 
             <!-- SECTION 1: Fresh Products -->
             <RelativeLayout
@@ -411,7 +393,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginHorizontal="20dp"
+        android:layout_marginHorizontal="10dp"
         android:layout_marginBottom="16dp"
         app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="32dp"

@@ -1,6 +1,7 @@
 package com.example.dairybook;
 
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -85,16 +86,16 @@ public class MainActivity extends AppCompatActivity {
         String profileImageUrl = "https://res.cloudinary.com/bxfg4024/image/upload/v1791023620/profile_image.jpg";
         Glide.with(this)
                 .load(profileImageUrl)
-                .placeholder(android.R.color.darker_gray)
-                .error(android.R.color.darker_gray)
+                .placeholder(new ColorDrawable(Color.parseColor("#E0E0E0")))
+                .error(new ColorDrawable(Color.parseColor("#E0E0E0")))
                 .into(ivUserProfile);
 
         // Load Hero Banner Image from Cloudinary
         String heroBannerUrl = "https://res.cloudinary.com/bxfg4024/image/upload/v1791190072/IMG_20261005_141611.png";
         Glide.with(this)
                 .load(heroBannerUrl)
-                .placeholder(android.R.color.darker_gray)
-                .error(android.R.color.darker_gray)
+                .placeholder(new ColorDrawable(Color.parseColor("#E0E0E0")))
+                .error(new ColorDrawable(Color.parseColor("#E0E0E0")))
                 .into(ivHeroBanner);
 
         // Setup Bottom Navigation
@@ -119,7 +120,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupBottomNavigation() {
-        // Set Home selected by default
         selectTab(0);
 
         navHomeLayout.setOnClickListener(v -> selectTab(0));
@@ -129,13 +129,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void selectTab(int index) {
-        // Reset all tabs to unselected state
         resetTab(navHomeLayout, navHomeIcon, navHomeText);
         resetTab(navFavLayout, navFavIcon, navFavText);
         resetTab(navOfferLayout, navOfferIcon, navOfferText);
         resetTab(navCartLayout, navCartIcon, navCartText);
 
-        // Activate selected tab
         switch (index) {
             case 0:
                 activateTab(navHomeLayout, navHomeIcon, navHomeText);
@@ -161,7 +159,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void activateTab(LinearLayout layout, ImageView icon, TextView text) {
         layout.setBackgroundResource(R.drawable.bg_active_nav_tab);
-        // Adjusted layout weight to 1.1f for a compact green active indicator width
         layout.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1.1f));
         icon.setColorFilter(Color.parseColor("#FFFFFF"));
         text.setVisibility(View.VISIBLE);
@@ -192,24 +189,19 @@ public class MainActivity extends AppCompatActivity {
         BannerAdapter bannerAdapter = new BannerAdapter(banners);
         bannerViewPager.setAdapter(bannerAdapter);
 
-        // Initialize Indicators
         setupDotsIndicator(bannerCount);
         updateBannerCounterAndDots(0);
 
-        // Register ViewPager2 Callbacks
         bannerViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 updateBannerCounterAndDots(position);
-
-                // Reset timer when swiped manually
                 autoScrollHandler.removeCallbacks(autoScrollRunnable);
                 autoScrollHandler.postDelayed(autoScrollRunnable, 3000);
             }
         });
 
-        // Runnable for 3-second Auto Slide
         autoScrollRunnable = new Runnable() {
             @Override
             public void run() {
@@ -279,20 +271,19 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupFreshProducts() {
         List<ProductItem> list = new ArrayList<>();
-        list.add(new ProductItem("Full Cream Milk 1L", "₹66", "https://res.cloudinary.com/bxfg4024/image/upload/v1791016426/milk_png.png"));
-        list.add(new ProductItem("Fresh Paneer 200g", "₹95", "https://res.cloudinary.com/bxfg4024/image/upload/v1791016426/Fresh_Paneer_Packaging_with_Herbs.png"));
-        list.add(new ProductItem("Cow Ghee 500ml", "₹380", "https://res.cloudinary.com/bxfg4024/image/upload/v1791016426/ghee.png"));
-        list.add(new ProductItem("Cheese 200g", "₹128", "https://res.cloudinary.com/bxfg4024/image/upload/v1791016426/Premium_Cheese_Product_Mockup.png"));
-
+        list.add(new ProductItem("Toastea Premium Bake Rusk", "BRITANNIA", "₹177.50", "₹250", "29% OFF", "1 kg", "https://res.cloudinary.com/bxfg4024/image/upload/v1791016426/milk_png.png"));
+        list.add(new ProductItem("Fresh Paneer Packaging", "AMUL", "₹95", "₹110", "13% OFF", "200 g", "https://res.cloudinary.com/bxfg4024/image/upload/v1791016426/Fresh_Paneer_Packaging_with_Herbs.png"));
+        list.add(new ProductItem("Pure Cow Ghee Jar", "MOTHER DAIRY", "₹380", "₹450", "15% OFF", "500 ml", "https://res.cloudinary.com/bxfg4024/image/upload/v1791016426/ghee.png"));
+        list.add(new ProductItem("Pure Cheese", "Amul", "₹130", "", "", "200 g", "https://res.cloudinary.com/bxfg4024/image/upload/v1791016426/Premium_Cheese_Product_Mockup.png"));
         rvFreshProducts.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         rvFreshProducts.setAdapter(new ProductAdapter(list));
     }
 
     private void setupDealOfTheDay() {
         List<ProductItem> list = new ArrayList<>();
-        list.add(new ProductItem("Unsalted Butter 100g", "₹52", "https://res.cloudinary.com/bxfg4024/image/upload/v1791029827/butter_pack.png"));
-        list.add(new ProductItem("Mango Lassi 200ml", "₹30", "https://res.cloudinary.com/bxfg4024/image/upload/v1791029831/lassi_mango.png"));
-        list.add(new ProductItem("Cheese Slices 200g", "₹125", "https://res.cloudinary.com/bxfg4024/image/upload/v1791029827/slice_cheese.png"));
+        list.add(new ProductItem("Unsalted Butter Pack", "AMUL", "₹52", "₹60", "13% OFF", "100 g", "https://res.cloudinary.com/bxfg4024/image/upload/v1791029827/butter_pack.png"));
+        list.add(new ProductItem("Mango Lassi Bottle", "MOTHER DAIRY", "₹30", "₹35", "14% OFF", "200 ml", "https://res.cloudinary.com/bxfg4024/image/upload/v1791029831/lassi_mango.png"));
+        list.add(new ProductItem("Processed Cheese Slices", "BRITANNIA", "₹125", "₹150", "16% OFF", "200 g", "https://res.cloudinary.com/bxfg4024/image/upload/v1791029827/slice_cheese.png"));
 
         rvDealOfTheDay.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         rvDealOfTheDay.setAdapter(new ProductAdapter(list));
@@ -300,9 +291,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupNewLaunch() {
         List<ProductItem> list = new ArrayList<>();
-        list.add(new ProductItem("Almond Milk 1L", "₹180", "https://res.cloudinary.com/bxfg4024/image/upload/v1791029827/almond_milk.png"));
-        list.add(new ProductItem("Flavored Yogurt (Berry) 200ml", "₹45", "https://res.cloudinary.com/bxfg4024/image/upload/v1791191177/Gemini_Generated_Image_pl2j56pl2j56pl2j.png"));
-        list.add(new ProductItem("Condensed Milk 400g", "₹140", "https://res.cloudinary.com/bxfg4024/image/upload/v1791191177/Gemini_Generated_Image_vthhy7vthhy7vthh.png"));
+        list.add(new ProductItem("Almond Milk Unsweetened", "SOFIT", "₹180", "₹210", "14% OFF", "1 L", "https://res.cloudinary.com/bxfg4024/image/upload/v1791029827/almond_milk.png"));
+        list.add(new ProductItem("Flavored Berry Yogurt", "EPIGAMIA", "₹45", "₹50", "10% OFF", "200 g", "https://res.cloudinary.com/bxfg4024/image/upload/v1791191177/Gemini_Generated_Image_pl2j56pl2j56pl2j.png"));
+        list.add(new ProductItem("Sweetened Condensed Milk", "NESTLE", "₹140", "₹160", "12% OFF", "400 g", "https://res.cloudinary.com/bxfg4024/image/upload/v1791191177/Gemini_Generated_Image_vthhy7vthhy7vthh.png"));
 
         rvNewLaunch.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         rvNewLaunch.setAdapter(new ProductAdapter(list));

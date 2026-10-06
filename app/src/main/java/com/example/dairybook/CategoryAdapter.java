@@ -19,7 +19,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     private List<CategoryItem> categories;
 
-    // Light pastel colors: Red, Sky Blue, Green, Yellow, Pink, Violet/Purple, Orange
+    // Light pastel colors: Red, Sky Blue, Orange, Purple, Green, Pink, Cyan
     private final String[] lightColors = {
             "#ffd6d6", // Light Red
             "#d6efff", // Light Sky Blue
@@ -52,7 +52,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         Glide.with(holder.itemView.getContext())
                 .load(item.getImageUrl())
-                .placeholder(android.R.drawable.ic_menu_gallery)
+                .placeholder(android.R.color.transparent)
                 .into(holder.ivCategoryImage);
     }
 

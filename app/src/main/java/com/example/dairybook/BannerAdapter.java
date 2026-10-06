@@ -1,5 +1,7 @@
 package com.example.dairybook;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,10 +34,11 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.BannerView
         holder.tvTitle.setText(banner.getTitle());
         holder.tvDiscount.setText(banner.getDiscount());
 
-        // Load Cloudinary image via Glide
+        // Load Cloudinary image via Glide with neutral placeholder
         Glide.with(holder.itemView.getContext())
                 .load(banner.getImageUrl())
-                .placeholder(R.drawable.ic_launcher_background)
+                .placeholder(new ColorDrawable(Color.parseColor("#E0E0E0")))
+                .error(new ColorDrawable(Color.parseColor("#E0E0E0")))
                 .into(holder.ivImage);
     }
 
