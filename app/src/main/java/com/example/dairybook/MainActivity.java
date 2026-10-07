@@ -414,10 +414,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupComboOffer() {
         List<ComboOfferItem> comboList = new ArrayList<>();
-        comboList.add(new ComboOfferItem("Malai Paneer", "₹99", "https://res.cloudinary.com/bxfg4024/image/upload/v1791283298/pngwing.com.png"));
-        comboList.add(new ComboOfferItem("Sweet Item", "₹149", "https://res.cloudinary.com/bxfg4024/image/upload/v1791283299/pngwing.com_5.png"));
-        comboList.add(new ComboOfferItem("Snack & Milk Saver", "₹199", "https://res.cloudinary.com/bxfg4024/image/upload/v1791283299/pngwing.com_4.png"));
-        comboList.add(new ComboOfferItem("Family Ghee Combo", "₹499", "https://res.cloudinary.com/bxfg4024/image/upload/v1791358568/PngItem_2354050.png"));
+        comboList.add(new ComboOfferItem("Malai Paneer", "₹99", "https://res.cloudinary.com/bxfg4024/image/upload/v1791369499/pngwing.com_9.png"));
+        comboList.add(new ComboOfferItem("Sweet Item", "₹149", "https://res.cloudinary.com/bxfg4024/image/upload/v1791369499/kindpng_2748389.png"));
+        comboList.add(new ComboOfferItem("Snack & Milk Saver", "₹199", "https://res.cloudinary.com/bxfg4024/image/upload/v1791369498/kindpng_4914512.png"));
+        comboList.add(new ComboOfferItem("Family Ghee Combo", "₹499", "https://res.cloudinary.com/bxfg4024/image/upload/v1791369499/PngItem_7614035.png"));
 
         rvComboOffer.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         rvComboOffer.setAdapter(new ComboOfferAdapter(comboList));
