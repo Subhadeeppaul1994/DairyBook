@@ -2,8 +2,8 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="160dp"
-    android:layout_height="210dp"
+    android:layout_width="155dp"
+    android:layout_height="195dp"
     android:layout_marginEnd="14dp"
     app:cardBackgroundColor="#FFFFFF"
     app:cardCornerRadius="24dp"
@@ -37,7 +37,7 @@
                 android:textColor="#111111"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                tools:text="Milk and Paneer" />
+                tools:text="Vehicle toys" />
 
             <!-- Product Image -->
             <ImageView

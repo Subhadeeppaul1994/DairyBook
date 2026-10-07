@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         setupHeaderBlur();
         setupDrawerBlur();
 
-        // Synchronize real-time drawer blur rendering on drawer motion & viewpager transitions
+        // Synchronize real-time drawer blur rendering
         setupDrawerBlurListeners();
 
         // Hamburger Menu Click Listener
@@ -172,18 +172,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupDrawerBlur() {
-        View decorView = getWindow().getDecorView();
-        ViewGroup rootView = decorView.findViewById(android.R.id.content);
+        // Target underlying main content container to avoid double-blurring top overlays
+        ViewGroup mainContentContainer = (ViewGroup) drawerLayout.getChildAt(0);
 
-        if (blurDrawer != null) {
-            blurDrawer.setupWith(rootView, new RenderScriptBlur(this))
-                    .setFrameClearDrawable(null) // Ensures direct sample of actual screen content
+        if (blurDrawer != null && mainContentContainer != null) {
+            blurDrawer.setupWith(mainContentContainer, new RenderScriptBlur(this))
+                    .setFrameClearDrawable(new ColorDrawable(Color.WHITE))
                     .setBlurRadius(18f);
         }
     }
 
     private void setupDrawerBlurListeners() {
-        // Dynamic re-render during drawer movement
         drawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
             public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
@@ -194,6 +193,14 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onDrawerOpened(@NonNull View drawerView) {
+                if (blurDrawer != null) {
+                    blurDrawer.invalidate();
+                }
+            }
+
+            @Override
+            public void onDrawerClosed(@NonNull View drawerView) {
+                // Keep blurHeaderPill active at all times—no setBlurEnabled toggling
                 if (blurDrawer != null) {
                     blurDrawer.invalidate();
                 }
@@ -390,7 +397,7 @@ public class MainActivity extends AppCompatActivity {
         list.add(new ProductItem("Toastea Premium Bake Rusk", "BRITANNIA", "₹177.50", "₹250", "29% OFF", "1 kg", "https://res.cloudinary.com/bxfg4024/image/upload/v1791016426/milk_png.png"));
         list.add(new ProductItem("Fresh Paneer Packaging", "AMUL", "₹95", "₹110", "13% OFF", "200 g", "https://res.cloudinary.com/bxfg4024/image/upload/v1791016426/Fresh_Paneer_Packaging_with_Herbs.png"));
         list.add(new ProductItem("Pure Cow Ghee Jar", "MOTHER DAIRY", "₹380", "₹450", "15% OFF", "500 ml", "https://res.cloudinary.com/bxfg4024/image/upload/v1791016426/ghee.png"));
-        list.add(new ProductItem("Pure Cheese", "Amul", "₹130", "", "", "200 g", "https://res.cloudinary.com/bxfg4024/image/upload/v1791016426/Premium_Cheese_Product_Mockup.png"));
+        list.add(new ProductItem("Pure Cheese", "Amul", "₹130", "", "", "200 g", "https://res.cloudinary.com/bxfg4024/image/upload/v1791358724/PngItem_1962538.png"));
         rvFreshProducts.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         rvFreshProducts.setAdapter(new ProductAdapter(list));
     }
@@ -398,7 +405,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupDealOfTheDay() {
         List<ProductItem> list = new ArrayList<>();
         list.add(new ProductItem("Unsalted Butter Pack", "AMUL", "₹52", "₹60", "13% OFF", "100 g", "https://res.cloudinary.com/bxfg4024/image/upload/v1791029827/butter_pack.png"));
-        list.add(new ProductItem("Mango Lassi Bottle", "MOTHER DAIRY", "₹30", "₹35", "14% OFF", "200 ml", "https://res.cloudinary.com/bxfg4024/image/upload/v1791029831/lassi_mango.png"));
+        list.add(new ProductItem("Mango Lassi Bottle", "AMUL", "₹30", "₹35", "14% OFF", "200 ml", "https://res.cloudinary.com/bxfg4024/image/upload/v1791283299/02-fop_amul-mango-lassi-tetrapack-1l-480x480.png"));
         list.add(new ProductItem("Processed Cheese Slices", "BRITANNIA", "₹125", "₹150", "16% OFF", "200 g", "https://res.cloudinary.com/bxfg4024/image/upload/v1791029827/slice_cheese.png"));
 
         rvDealOfTheDay.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -407,10 +414,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupComboOffer() {
         List<ComboOfferItem> comboList = new ArrayList<>();
-        comboList.add(new ComboOfferItem("Breakfast Combo", "₹99", "https://res.cloudinary.com/bxfg4024/image/upload/v1791016426/milk_png.png"));
-        comboList.add(new ComboOfferItem("Dairy Delight Pack", "₹149", "https://res.cloudinary.com/bxfg4024/image/upload/v1791016426/Fresh_Paneer_Packaging_with_Herbs.png"));
-        comboList.add(new ComboOfferItem("Snack & Milk Saver", "₹199", "https://res.cloudinary.com/bxfg4024/image/upload/v1791029827/butter_pack.png"));
-        comboList.add(new ComboOfferItem("Family Ghee Combo", "₹499", "https://res.cloudinary.com/bxfg4024/image/upload/v1791016426/ghee.png"));
+        comboList.add(new ComboOfferItem("Malai Paneer", "₹99", "https://res.cloudinary.com/bxfg4024/image/upload/v1791283298/pngwing.com.png"));
+        comboList.add(new ComboOfferItem("Sweet Item", "₹149", "https://res.cloudinary.com/bxfg4024/image/upload/v1791283299/pngwing.com_5.png"));
+        comboList.add(new ComboOfferItem("Snack & Milk Saver", "₹199", "https://res.cloudinary.com/bxfg4024/image/upload/v1791283299/pngwing.com_4.png"));
+        comboList.add(new ComboOfferItem("Family Ghee Combo", "₹499", "https://res.cloudinary.com/bxfg4024/image/upload/v1791358568/PngItem_2354050.png"));
 
         rvComboOffer.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         rvComboOffer.setAdapter(new ComboOfferAdapter(comboList));
@@ -419,8 +426,8 @@ public class MainActivity extends AppCompatActivity {
     private void setupNewLaunch() {
         List<ProductItem> list = new ArrayList<>();
         list.add(new ProductItem("Almond Milk Unsweetened", "SOFIT", "₹180", "₹210", "14% OFF", "1 L", "https://res.cloudinary.com/bxfg4024/image/upload/v1791029827/almond_milk.png"));
-        list.add(new ProductItem("Flavored Berry Yogurt", "EPIGAMIA", "₹45", "₹50", "10% OFF", "200 g", "https://res.cloudinary.com/bxfg4024/image/upload/v1791191177/Gemini_Generated_Image_pl2j56pl2j56pl2j.png"));
-        list.add(new ProductItem("Sweetened Condensed Milk", "NESTLE", "₹140", "₹160", "12% OFF", "400 g", "https://res.cloudinary.com/bxfg4024/image/upload/v1791191177/Gemini_Generated_Image_vthhy7vthhy7vthh.png"));
+        list.add(new ProductItem("Flavored Berry Yogurt", "EPIGAMIA", "₹45", "₹50", "10% OFF", "200 g", "https://res.cloudinary.com/bxfg4024/image/upload/v1791283302/pngwing.com_3.png"));
+        list.add(new ProductItem("Sweetened Condensed Milk", "NESTLE", "₹140", "₹160", "12% OFF", "400 g", "https://res.cloudinary.com/bxfg4024/image/upload/v1791283298/pngwing.com_2.png"));
 
         rvNewLaunch.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         rvNewLaunch.setAdapter(new ProductAdapter(list));

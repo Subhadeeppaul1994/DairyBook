@@ -111,7 +111,7 @@
                 android:id="@+id/btnDrawerLogout"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginBottom="12dp"
+                android:layout_marginBottom="22dp"
                 android:backgroundTint="#FF4B4B"
                 android:text="Logout"
                 android:textColor="#FFFFFF"
@@ -125,6 +125,7 @@
         </LinearLayout>
 
     </eightbitlab.com.blurview.BlurView>
+
     <View
         android:layout_width="1.5dp"
         android:layout_height="match_parent"
