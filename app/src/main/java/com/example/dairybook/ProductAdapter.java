@@ -1,5 +1,7 @@
 package com.example.dairybook;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
@@ -63,7 +65,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             holder.tvDiscountBadge.setVisibility(View.GONE);
         }
 
-        // Load Image via Glide with clean light-gray placeholder
+        // Load Image via Glide
         Glide.with(holder.itemView.getContext())
                 .load(product.getImageUrl())
                 .placeholder(new ColorDrawable(Color.parseColor("#F5F5F5")))
@@ -100,9 +102,17 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             if (currentQty > 1) {
                 product.setQuantity(currentQty - 1);
             } else {
-                product.setQuantity(0); // Toggles back to Bag icon
+                product.setQuantity(0);
             }
             updateCartStepperUI(holder, product);
+        });
+
+        // OPEN PRODUCT DETAILS PAGE ON CARD CLICK
+        holder.itemView.setOnClickListener(v -> {
+            Context context = holder.itemView.getContext();
+            Intent intent = new Intent(context, ProductDetailActivity.class);
+            intent.putExtra("EXTRA_PRODUCT_ITEM", product);
+            context.startActivity(intent);
         });
     }
 
