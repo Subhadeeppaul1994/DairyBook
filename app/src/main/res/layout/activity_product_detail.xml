@@ -25,7 +25,7 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="320dp"
-                app:cardBackgroundColor="#EAF5EA"
+                app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="0dp"
                 app:cardElevation="0dp"
                 app:strokeWidth="0dp">
@@ -41,7 +41,7 @@
                         android:layout_height="match_parent"
                         android:padding="36dp"
                         android:scaleType="fitCenter"
-                        tools:src="@android:drawable/ic_menu_gallery" />
+                         />
 
                     <!-- Top Bar: Back Button & Share Button -->
                     <RelativeLayout
@@ -64,19 +64,9 @@
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 android:layout_gravity="center"
-                                android:src="@android:drawable/ic_menu_revert"
+                                android:src="@drawable/back"
                                 app:tint="#222222" />
                         </com.google.android.material.card.MaterialCardView>
-
-                        <!-- Title Label in Header -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:text="Product Details"
-                            android:textColor="#111111"
-                            android:textSize="17sp"
-                            android:textStyle="bold" />
 
                         <!-- Floating Round Share Button -->
                         <com.google.android.material.card.MaterialCardView
@@ -93,7 +83,7 @@
                                 android:layout_width="18dp"
                                 android:layout_height="18dp"
                                 android:layout_gravity="center"
-                                android:src="@android:drawable/ic_menu_share"
+                                android:src="@drawable/share"
                                 app:tint="#222222" />
                         </com.google.android.material.card.MaterialCardView>
 
