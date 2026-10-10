@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/loginback"
+    android:background="@drawable/back2"
     android:fillViewport="true">
 
     <RelativeLayout
@@ -11,21 +11,21 @@
         android:layout_height="wrap_content">
 
         <!-- Top Header Banner Container -->
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/topHeader"
             android:layout_width="match_parent"
-            android:layout_height="180dp"
+            android:layout_height="220dp"
             android:background="#00FFEFE6"
-            android:padding="0dp">
+            android:padding="20dp">
 
             <!-- App Branding Stack -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-               android:layout_marginTop="50dp"
-
-                android:layout_marginStart="22dp"
-                android:orientation="vertical">
+                android:layout_marginTop="30dp"
+                android:layout_marginStart="2dp"
+                android:orientation="vertical"
+                >
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -33,11 +33,17 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
+                    <!-- Replace with your orange logo drawable -->
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+
+                        app:tint="#FF5722" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
+                        android:layout_marginStart="-12dp"
                         android:text="DairyBook"
                         android:textColor="#111111"
                         android:textSize="24sp"
@@ -47,20 +53,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="20dp"
                     android:text="Freshness at your\nfingertips"
                     android:textColor="#666666"
                     android:textSize="14sp" />
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="140dp"
-                android:layout_height="140dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:scaleType="fitCenter" />
-        </LinearLayout>
+        </RelativeLayout>
 
         <!-- Main Registration Form -->
         <LinearLayout
@@ -92,12 +92,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                app:boxBackgroundColor="#FFF4EE"
-                app:boxCornerRadiusBottomEnd="50dp"
-                app:boxCornerRadiusBottomStart="50dp"
-                app:boxCornerRadiusTopEnd="50dp"
-                app:boxCornerRadiusTopStart="50dp"
-                app:boxStrokeColor="#FFE0D3"
+                app:boxBackgroundColor="#E8F5E9"
+                app:boxCornerRadiusBottomEnd="4dp"
+                app:boxCornerRadiusBottomStart="4dp"
+                app:boxCornerRadiusTopEnd="4dp"
+                app:boxCornerRadiusTopStart="4dp"
+                app:boxStrokeColor="#cccccc"
                 app:hintEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -106,7 +106,7 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@android:drawable/ic_menu_myplaces"
                     android:drawablePadding="15dp"
-                    android:drawableTint="#FF5722"
+                    android:drawableTint="#2E7D32"
                     android:hint="Full Name"
                     android:inputType="textPersonName"
                     android:paddingHorizontal="16dp"
@@ -121,12 +121,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
-                app:boxBackgroundColor="#FFF4EE"
-                app:boxCornerRadiusBottomEnd="50dp"
-                app:boxCornerRadiusBottomStart="50dp"
-                app:boxCornerRadiusTopEnd="50dp"
-                app:boxCornerRadiusTopStart="50dp"
-                app:boxStrokeColor="#FFE0D3"
+                app:boxBackgroundColor="#E8F5E9"
+                app:boxCornerRadiusBottomEnd="4dp"
+                app:boxCornerRadiusBottomStart="4dp"
+                app:boxCornerRadiusTopEnd="4dp"
+                app:boxCornerRadiusTopStart="4dp"
+                app:boxStrokeColor="#cccccc"
                 app:hintEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -135,7 +135,7 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@android:drawable/ic_dialog_email"
                     android:drawablePadding="15dp"
-                    android:drawableTint="#FF5722"
+                    android:drawableTint="#2E7D32"
                     android:hint="Email address"
                     android:inputType="textEmailAddress"
                     android:paddingHorizontal="16dp"
@@ -150,12 +150,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
-                app:boxBackgroundColor="#FFF4EE"
-                app:boxCornerRadiusBottomEnd="50dp"
-                app:boxCornerRadiusBottomStart="50dp"
-                app:boxCornerRadiusTopEnd="50dp"
-                app:boxCornerRadiusTopStart="50dp"
-                app:boxStrokeColor="#FFE0D3"
+                app:boxBackgroundColor="#E8F5E9"
+                app:boxCornerRadiusBottomEnd="4dp"
+                app:boxCornerRadiusBottomStart="4dp"
+                app:boxCornerRadiusTopEnd="4dp"
+                app:boxCornerRadiusTopStart="4dp"
+                app:boxStrokeColor="#cccccc"
                 app:hintEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -164,7 +164,7 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@android:drawable/stat_sys_phone_call"
                     android:drawablePadding="15dp"
-                    android:drawableTint="#FF5722"
+                    android:drawableTint="#2E7D32"
                     android:hint="Phone Number"
                     android:inputType="phone"
                     android:paddingHorizontal="16dp"
@@ -179,14 +179,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
-                app:boxBackgroundColor="#FFF4EE"
-                app:boxCornerRadiusBottomEnd="50dp"
-                app:boxCornerRadiusBottomStart="50dp"
-                app:boxCornerRadiusTopEnd="50dp"
-                app:boxCornerRadiusTopStart="50dp"
-                app:boxStrokeColor="#FFE0D3"
+                app:boxBackgroundColor="#E8F5E9"
+                app:boxCornerRadiusBottomEnd="4dp"
+                app:boxCornerRadiusBottomStart="4dp"
+                app:boxCornerRadiusTopEnd="4dp"
+                app:boxCornerRadiusTopStart="4dp"
+                app:boxStrokeColor="#cccccc"
                 app:endIconMode="password_toggle"
-                app:endIconTint="#FF5722"
+                app:endIconTint="#878787"
                 app:hintEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -195,7 +195,7 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@android:drawable/ic_lock_lock"
                     android:drawablePadding="15dp"
-                    android:drawableTint="#FF5722"
+                    android:drawableTint="#2E7D32"
                     android:hint="Password"
                     android:inputType="textPassword"
                     android:paddingHorizontal="16dp"
@@ -210,14 +210,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
-                app:boxBackgroundColor="#FFF4EE"
-                app:boxCornerRadiusBottomEnd="50dp"
-                app:boxCornerRadiusBottomStart="50dp"
-                app:boxCornerRadiusTopEnd="50dp"
-                app:boxCornerRadiusTopStart="50dp"
-                app:boxStrokeColor="#FFE0D3"
+                app:boxBackgroundColor="#E8F5E9"
+                app:boxCornerRadiusBottomEnd="4dp"
+                app:boxCornerRadiusBottomStart="4dp"
+                app:boxCornerRadiusTopEnd="4dp"
+                app:boxCornerRadiusTopStart="4dp"
+                app:boxStrokeColor="#cccccc"
                 app:endIconMode="password_toggle"
-                app:endIconTint="#FF5722"
+                app:endIconTint="#878787"
                 app:hintEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -226,7 +226,7 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@android:drawable/ic_lock_lock"
                     android:drawablePadding="15dp"
-                    android:drawableTint="#FF5722"
+                    android:drawableTint="#2E7D32"
                     android:hint="Confirm Password"
                     android:inputType="textPassword"
                     android:paddingHorizontal="16dp"
@@ -241,7 +241,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginTop="24dp"
-                android:backgroundTint="#FF5722"
+                android:backgroundTint="#4CAF50"
                 android:text="Sign Up  ➔"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
