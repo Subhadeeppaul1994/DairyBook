@@ -8,35 +8,18 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <!-- Logo Icon -->
-        <ImageView
-            android:id="@+id/ivLogo"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:contentDescription="DairyBook Logo"
-            android:src="@drawable/ic_launcher_foreground" />
+        >
 
         <!-- App Name -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:padding="10dp"
             android:text="DairyBook"
-            android:textColor="#FF5722"
+            android:textColor="#4CAF50"
             android:textSize="32sp"
             android:textStyle="bold" />
 
-        <!-- Tagline -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Freshness delivered to your doorstep"
-            android:textColor="#666666"
-            android:textSize="14sp" />
 
     </LinearLayout>
 
