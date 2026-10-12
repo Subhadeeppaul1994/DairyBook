@@ -1,28 +1,30 @@
 package com.example.dairybook;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-public class SplashActivity extends AppCompatActivity {
+// Change this import:
+import com.airbnb.lottie.LottieAnimationView;
 
-    private static final int SPLASH_DELAY = 2500; // 2.5 seconds delay
+public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+        LottieAnimationView lottieAnimationView = findViewById(R.id.lottieAnimationView);
+
+        lottieAnimationView.addAnimatorListener(new AnimatorListenerAdapter() {
             @Override
-            public void run() {
-                // Navigate to LoginActivity
-                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish(); // Close SplashActivity so user can't go back to it
+            public void onAnimationEnd(Animator animation) {
+                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                finish();
             }
-        }, SPLASH_DELAY);
+        });
     }
 }

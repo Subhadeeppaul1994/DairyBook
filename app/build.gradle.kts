@@ -46,4 +46,5 @@ dependencies {
 
     // BlurView (Fixed version string for JitPack)
     implementation("com.github.Dimezis:BlurView:version-2.0.6")
+    implementation("com.airbnb.android:lottie:6.4.0")
 }
