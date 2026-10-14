@@ -112,6 +112,7 @@
                     android:inputType="textPersonName"
                     android:paddingHorizontal="16dp"
                     android:textColor="#111111"
+                    android:textColorHint="#707070"
                     android:textSize="15sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -139,6 +140,7 @@
                     android:inputType="textEmailAddress"
                     android:paddingHorizontal="16dp"
                     android:textColor="#111111"
+                    android:textColorHint="#707070"
                     android:textSize="15sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -166,6 +168,7 @@
                     android:inputType="phone"
                     android:paddingHorizontal="16dp"
                     android:textColor="#111111"
+                    android:textColorHint="#707070"
                     android:textSize="15sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -195,6 +198,7 @@
                     android:inputType="textPassword"
                     android:paddingHorizontal="16dp"
                     android:textColor="#111111"
+                    android:textColorHint="#707070"
                     android:textSize="15sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -224,6 +228,7 @@
                     android:inputType="textPassword"
                     android:paddingHorizontal="16dp"
                     android:textColor="#111111"
+                    android:textColorHint="#707070"
                     android:textSize="15sp" />
             </com.google.android.material.textfield.TextInputLayout>
 

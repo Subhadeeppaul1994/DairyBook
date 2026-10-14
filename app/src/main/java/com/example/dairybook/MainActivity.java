@@ -398,7 +398,7 @@ public class MainActivity extends AppCompatActivity {
     private void activateTab(LinearLayout layout, ImageView icon, TextView text) {
         layout.setBackgroundResource(R.drawable.bg_active_nav_tab);
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) layout.getLayoutParams();
-        params.weight = 1.35f;
+        params.weight = 1.38f;
         layout.setLayoutParams(params);
 
         icon.setColorFilter(Color.parseColor("#008000"));
@@ -506,9 +506,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupNewLaunch() {
-        List<ProductItem> list = new ArrayList<>();
-        list.add(new ProductItem("Almond Milk Unsweetened", "SOFIT", "₹180", "₹210", "14% OFF", "1 L", "https://res.cloudinary.com/bxfg4024/image/upload/v1791029827/almond_milk.png"));
+
         List<ProductItem> listNew = new ArrayList<>();
+        listNew.add(new ProductItem("Almond Milk Unsweetened", "SOFIT", "₹180", "₹210", "14% OFF", "1 L", "https://res.cloudinary.com/bxfg4024/image/upload/v1791029827/almond_milk.png"));
         listNew.add(new ProductItem("Flavored Berry Yogurt", "EPIGAMIA", "₹45", "₹50", "10% OFF", "200 g", "https://res.cloudinary.com/bxfg4024/image/upload/v1791283302/pngwing.com_3.png"));
         listNew.add(new ProductItem("Sweetened Condensed Milk", "NESTLE", "₹140", "₹160", "12% OFF", "400 g", "https://res.cloudinary.com/bxfg4024/image/upload/v1791283298/pngwing.com_2.png"));
 
