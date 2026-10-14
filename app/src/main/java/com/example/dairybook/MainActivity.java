@@ -19,12 +19,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
 
@@ -40,11 +42,14 @@ public class MainActivity extends AppCompatActivity {
     private ImageView ivMenu;
     private ShapeableImageView ivUserProfile;
     private ImageView ivHeroBanner;
+    private View cardHeroContainer;
+    private AppBarLayout appBarLayout;
     private ViewPager2 bannerViewPager;
     private TextView tvBannerCounter;
     private LinearLayout layoutDotsIndicator;
     private RecyclerView rvCategories, rvFreshProducts, rvDealOfTheDay, rvComboOffer, rvNewLaunch;
     private BlurView blurHeaderPill, blurDrawer;
+    private NestedScrollView scrollViewMain;
 
     // Drawer View Elements
     private ShapeableImageView ivDrawerProfile;
@@ -75,6 +80,9 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout.setScrimColor(Color.TRANSPARENT);
 
         // Bind Main Views
+        scrollViewMain = findViewById(R.id.scrollViewMain);
+        appBarLayout = findViewById(R.id.appBarLayout);
+        cardHeroContainer = findViewById(R.id.cardHeroContainer);
         ivUserProfile = findViewById(R.id.ivUserProfile);
         ivHeroBanner = findViewById(R.id.ivHeroBanner);
         blurHeaderPill = findViewById(R.id.blurHeaderPill);
@@ -120,6 +128,9 @@ public class MainActivity extends AppCompatActivity {
         // Synchronize real-time drawer blur rendering
         setupDrawerBlurListeners();
 
+        // Setup Instant Bottom Navigation and Smooth Banner Fade Behavior
+        setupScrollBehavior();
+
         // Hamburger Menu Click Listener
         if (ivMenu != null) {
             ivMenu.setOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
@@ -142,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
                 .error(new ColorDrawable(Color.parseColor("#E0E0E0")))
                 .into(ivDrawerProfile);
 
-        String heroBannerUrl = "https://res.cloudinary.com/bxfg4024/image/upload/v1791190072/IMG_20261005_141611.png";
+        String heroBannerUrl = "https://res.cloudinary.com/bxfg4024/image/upload/v1791960185/Gemini_Generated_Image_2zhk4i2zhk4i2zhk.png";
         Glide.with(this)
                 .load(heroBannerUrl)
                 .placeholder(new ColorDrawable(Color.parseColor("#E0E0E0")))
@@ -159,6 +170,32 @@ public class MainActivity extends AppCompatActivity {
         setupNewLaunch();
     }
 
+    private void setupScrollBehavior() {
+        // 1. Instant Bottom Navigation Visibility on Scroll
+        if (scrollViewMain != null) {
+            scrollViewMain.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+                if (scrollY > oldScrollY + 2) {
+                    bottomNavParent.animate().cancel();
+                    bottomNavParent.animate().translationY(bottomNavParent.getHeight() + 80).setDuration(100).start();
+                } else if (scrollY < oldScrollY - 2) {
+                    bottomNavParent.animate().cancel();
+                    bottomNavParent.animate().translationY(0).setDuration(100).start();
+                }
+            });
+        }
+
+        // 2. Smooth Banner Fade Out / In via AppBarLayout offset
+        if (appBarLayout != null && cardHeroContainer != null) {
+            appBarLayout.addOnOffsetChangedListener((AppBarLayout appBar, int verticalOffset) -> {
+                int totalScrollRange = appBar.getTotalScrollRange();
+                if (totalScrollRange != 0) {
+                    float alphaFactor = 1.0f - (float) Math.abs(verticalOffset) / (float) totalScrollRange;
+                    cardHeroContainer.setAlpha(Math.max(0f, Math.min(1f, alphaFactor)));
+                }
+            });
+        }
+    }
+
     private void setupHeaderBlur() {
         View decorView = getWindow().getDecorView();
         ViewGroup rootView = decorView.findViewById(android.R.id.content);
@@ -172,7 +209,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupDrawerBlur() {
-        // Target underlying main content container to avoid double-blurring top overlays
         ViewGroup mainContentContainer = (ViewGroup) drawerLayout.getChildAt(0);
 
         if (blurDrawer != null && mainContentContainer != null) {
@@ -200,7 +236,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onDrawerClosed(@NonNull View drawerView) {
-                // Keep blurHeaderPill active at all times—no setBlurEnabled toggling
                 if (blurDrawer != null) {
                     blurDrawer.invalidate();
                 }
@@ -223,7 +258,6 @@ public class MainActivity extends AppCompatActivity {
         setupDotsIndicator(bannerCount);
         updateBannerCounterAndDots(0);
 
-        // Keep drawer blur in sync with banner slide events
         bannerViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

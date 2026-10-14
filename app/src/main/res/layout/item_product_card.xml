@@ -45,7 +45,8 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:padding="4dp"
-                android:src="@drawable/ic_heart_outline" />
+                android:src="@drawable/ic_heart_outline"
+                />
 
             <!-- Green Veg Dot Symbol -->
             <ImageView

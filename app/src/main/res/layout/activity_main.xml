@@ -7,219 +7,225 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!-- MAIN CONTENT VIEW -->
-    <RelativeLayout
+    <!-- MAIN CONTENT VIEW WITH COORDINATOR LAYOUT -->
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F8F9FA">
+        android:background="#F8F9FA"
+        android:fitsSystemWindows="true">
 
-        <!-- FIXED TOP HEADER CONTAINER -->
-        <LinearLayout
-            android:id="@+id/topFixedHeader"
+        <!-- COLLAPSING APP BAR (Hero Banner + Sticky Search & Categories) -->
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:background="@android:color/transparent"
+            android:fitsSystemWindows="true"
+            app:elevation="0dp">
 
-            <!-- HERO BANNER WITH OVERLAID HEADER -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="190dp"
-                android:layout_marginHorizontal="0dp"
-                android:layout_marginTop="0dp"
-                app:cardCornerRadius="0dp"
-                app:cardElevation="0dp"
-                app:strokeWidth="0dp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <!-- Hero Background Image -->
-                    <ImageView
-                        android:id="@+id/ivHeroBanner"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop" />
-
-                    <!-- Frosted Glass Half-Pill Container with Hamburger Icon -->
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/cardProfilePill"
-                        android:layout_width="42dp"
-                        android:layout_height="42dp"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="50dp"
-                        app:cardBackgroundColor="@android:color/transparent"
-                        app:cardCornerRadius="100dp"
-                        app:cardElevation="0dp"
-                        app:strokeColor="#40FFFFFF"
-                        app:strokeWidth="1dp">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <!-- 8bitlab BlurView -->
-                            <eightbitlab.com.blurview.BlurView
-                                android:id="@+id/blurHeaderPill"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                app:blurOverlayColor="#25FFFFFF" />
-
-                            <!-- Foreground Content Container -->
-                            <LinearLayout
-                                android:id="@+id/layoutProfileContent"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:gravity="center"
-                                android:orientation="horizontal">
-
-                                <!-- Hamburger Menu Icon -->
-                                <ImageView
-                                    android:id="@+id/ivMenu"
-                                    android:layout_width="27dp"
-                                    android:layout_height="27dp"
-                                    android:background="?attr/selectableItemBackgroundBorderless"
-                                    android:clickable="true"
-                                    android:contentDescription="Open Menu"
-                                    android:focusable="true"
-                                    android:src="@drawable/burger"
-                                    app:tint="#FFFFFF" />
-
-                                <!-- User Profile Picture -->
-                                <com.google.android.material.imageview.ShapeableImageView
-                                    android:id="@+id/ivUserProfile"
-                                    android:layout_width="44dp"
-                                    android:layout_height="44dp"
-                                    android:scaleType="centerCrop"
-                                    android:visibility="gone"
-                                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
-                                    tools:src="@android:drawable/ic_menu_gallery" />
-
-                            </LinearLayout>
-
-                        </RelativeLayout>
-                    </com.google.android.material.card.MaterialCardView>
-
-                </RelativeLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Search Bar Block with Filter & Notification -->
-            <LinearLayout
+            <!-- COLLAPSING HERO BANNER -->
+            <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="12dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingHorizontal="20dp">
+                android:fitsSystemWindows="true"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:titleEnabled="false">
 
-                <!-- Search Field -->
+                <!-- Hero Banner Image & Profile Pill -->
                 <com.google.android.material.card.MaterialCardView
-                    android:layout_width="0dp"
-                    android:layout_height="43dp"
-                    android:layout_weight="1"
-                    app:cardBackgroundColor="#FFFFFF"
-                    app:cardCornerRadius="25dp"
+                    android:id="@+id/cardHeroContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    app:cardCornerRadius="0dp"
                     app:cardElevation="0dp"
-                    app:strokeColor="#CCCCCC"
-                    app:strokeWidth="1dp">
+                    app:strokeWidth="0dp"
+                    app:layout_collapseMode="parallax">
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingHorizontal="16dp">
+                        android:layout_height="match_parent">
 
+                        <!-- Hero Background Image -->
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@android:drawable/ic_menu_search"
-                            app:tint="#888888" />
-
-                        <EditText
-                            android:id="@+id/etSearch"
+                            android:id="@+id/ivHeroBanner"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginStart="10dp"
-                            android:background="@null"
-                            android:hint="Search fresh milk, butter, cheese..."
-                            android:imeOptions="actionSearch"
-                            android:inputType="text"
-                            android:textColor="#111111"
-                            android:textColorHint="#999999"
-                            android:textSize="14sp" />
-                    </LinearLayout>
+                            android:scaleType="centerCrop" />
+
+                        <!-- Frosted Glass Half-Pill Container with Hamburger Icon -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardProfilePill"
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="50dp"
+                            app:cardBackgroundColor="@android:color/transparent"
+                            app:cardCornerRadius="100dp"
+                            app:cardElevation="0dp"
+                            app:strokeColor="#40FFFFFF"
+                            app:strokeWidth="1dp">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <!-- 8bitlab BlurView -->
+                                <eightbitlab.com.blurview.BlurView
+                                    android:id="@+id/blurHeaderPill"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    app:blurOverlayColor="#25FFFFFF" />
+
+                                <!-- Foreground Content Container -->
+                                <LinearLayout
+                                    android:id="@+id/layoutProfileContent"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <!-- Hamburger Menu Icon -->
+                                    <ImageView
+                                        android:id="@+id/ivMenu"
+                                        android:layout_width="27dp"
+                                        android:layout_height="27dp"
+                                        android:background="?attr/selectableItemBackgroundBorderless"
+                                        android:clickable="true"
+                                        android:contentDescription="Open Menu"
+                                        android:focusable="true"
+                                        android:src="@drawable/burger"
+                                        app:tint="#FFFFFF" />
+
+                                    <!-- User Profile Picture -->
+                                    <com.google.android.material.imageview.ShapeableImageView
+                                        android:id="@+id/ivUserProfile"
+                                        android:layout_width="44dp"
+                                        android:layout_height="44dp"
+                                        android:scaleType="centerCrop"
+                                        android:visibility="gone"
+                                        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+                                        tools:src="@android:drawable/ic_menu_gallery" />
+
+                                </LinearLayout>
+
+                            </RelativeLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                    </RelativeLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Filter Button Card -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
-                    android:layout_marginStart="10dp"
-                    app:cardBackgroundColor="#FFFFFF"
-                    app:cardCornerRadius="22.5dp"
-                    app:cardElevation="0dp"
-                    app:strokeColor="#CCCCCC"
-                    app:strokeWidth="1dp">
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-                    <ImageButton
-                        android:id="@+id/btnFilter"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:padding="8.6dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/filter2" />
-                </com.google.android.material.card.MaterialCardView>
-
-                <!-- Notification Button Card -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
-                    android:layout_marginStart="10dp"
-                    app:cardBackgroundColor="#FFFFFF"
-                    app:cardCornerRadius="22.5dp"
-                    app:cardElevation="0dp"
-                    app:strokeColor="#CCCCCC"
-                    app:strokeWidth="1dp">
-
-                    <ImageButton
-                        android:id="@+id/btnNotification"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:padding="7.4dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/notification" />
-                </com.google.android.material.card.MaterialCardView>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <!-- SCROLLABLE CONTENT -->
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@id/bottomNavigationCard"
-            android:layout_below="@id/topFixedHeader"
-            android:clipToPadding="false"
-            android:fillViewport="true">
-
+            <!-- STICKY HEADER CONTAINER (Search Bar & Categories pinned at top on scroll, padded below status bar) -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#F8F9FA"
                 android:orientation="vertical"
-                android:paddingBottom="20dp">
+                android:paddingTop="28dp"
+                app:layout_scrollFlags="noScroll">
+
+                <!-- Search Bar Block with Filter & Notification -->
+                <LinearLayout
+                    android:id="@+id/searchBarContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="12dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="20dp">
+
+                    <!-- Search Field -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="0dp"
+                        android:layout_height="43dp"
+                        android:layout_weight="1"
+                        app:cardBackgroundColor="#FFFFFF"
+                        app:cardCornerRadius="25dp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="#CCCCCC"
+                        app:strokeWidth="1dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingHorizontal="16dp">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@android:drawable/ic_menu_search"
+                                app:tint="#888888" />
+
+                            <EditText
+                                android:id="@+id/etSearch"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="10dp"
+                                android:background="@null"
+                                android:hint="Search fresh milk, butter, cheese..."
+                                android:imeOptions="actionSearch"
+                                android:inputType="text"
+                                android:textColor="#111111"
+                                android:textColorHint="#999999"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Filter Button Card -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:layout_marginStart="10dp"
+                        app:cardBackgroundColor="#FFFFFF"
+                        app:cardCornerRadius="22.5dp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="#CCCCCC"
+                        app:strokeWidth="1dp">
+
+                        <ImageButton
+                            android:id="@+id/btnFilter"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:padding="8.6dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/filter2" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Notification Button Card -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:layout_marginStart="10dp"
+                        app:cardBackgroundColor="#FFFFFF"
+                        app:cardCornerRadius="22.5dp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="#CCCCCC"
+                        app:strokeWidth="1dp">
+
+                        <ImageButton
+                            android:id="@+id/btnNotification"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:padding="7.4dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/notification" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                </LinearLayout>
 
                 <!-- Categories Horizontal List -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="4dp"
                     android:text="Categories"
                     android:textColor="#111111"
                     android:textSize="18sp"
@@ -230,11 +236,31 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:clipToPadding="false"
                     android:orientation="horizontal"
                     android:paddingHorizontal="16dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/item_category" />
+
+            </LinearLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <!-- SCROLLABLE PRODUCTS CONTENT -->
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollViewMain"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:fillViewport="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="90dp">
 
                 <!-- Middle ViewPager2 Offer Slider -->
                 <RelativeLayout
@@ -437,17 +463,19 @@
                     tools:listitem="@layout/item_product_card" />
 
             </LinearLayout>
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
-        <!-- PROFESSIONAL BOTTOM NAVIGATION BAR -->
+        <!-- FLOATING PROFESSIONAL BOTTOM NAVIGATION BAR -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/bottomNavigationCard"
             android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="16dp"
             app:cardBackgroundColor="#FFFFFF"
-            app:cardCornerRadius="0dp"
-            app:cardElevation="8dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="10dp"
             app:strokeColor="#EEEEEE"
             app:strokeWidth="1dp">
 
@@ -594,7 +622,7 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-    </RelativeLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <!-- NAVIGATION DRAWER INCLUDE -->
     <include layout="@layout/nav_drawer_layout" />
