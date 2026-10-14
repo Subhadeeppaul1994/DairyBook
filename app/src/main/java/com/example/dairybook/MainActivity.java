@@ -11,6 +11,7 @@ import android.transition.AutoTransition;
 import android.transition.TransitionManager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -62,6 +63,11 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout navHomeLayout, navFavLayout, navOfferLayout, navCartLayout;
     private ImageView navHomeIcon, navFavIcon, navOfferIcon, navCartIcon;
     private TextView navHomeText, navFavText, navOfferText, navCartText;
+
+    // Scroll & Animation State Fields
+    private boolean isBottomNavHidden = false;
+    private int currentAppBarOffset = 0;
+    private static final long NAV_ANIM_MS = 150L;
 
     private Handler autoScrollHandler = new Handler(Looper.getMainLooper());
     private Runnable autoScrollRunnable;
@@ -171,29 +177,71 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupScrollBehavior() {
-        // 1. Instant Bottom Navigation Visibility on Scroll
+        // 1) Bottom nav: reacts to content scrolling (state-guarded, no animation restarts)
         if (scrollViewMain != null) {
             scrollViewMain.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-                if (scrollY > oldScrollY + 2) {
-                    bottomNavParent.animate().cancel();
-                    bottomNavParent.animate().translationY(bottomNavParent.getHeight() + 80).setDuration(100).start();
-                } else if (scrollY < oldScrollY - 2) {
-                    bottomNavParent.animate().cancel();
-                    bottomNavParent.animate().translationY(0).setDuration(100).start();
+                int dy = scrollY - oldScrollY;
+                if (dy > 0) {
+                    setBottomNavHidden(true);
+                } else if (dy < 0) {
+                    setBottomNavHidden(false);
                 }
             });
         }
 
-        // 2. Smooth Banner Fade Out / In via AppBarLayout offset
-        if (appBarLayout != null && cardHeroContainer != null) {
+        // 2) AppBar offset: drives BOTH the hero fade and the nav while the AppBar is
+        //    consuming the scroll (when scrollY is not changing yet)
+        if (appBarLayout != null) {
             appBarLayout.addOnOffsetChangedListener((AppBarLayout appBar, int verticalOffset) -> {
-                int totalScrollRange = appBar.getTotalScrollRange();
-                if (totalScrollRange != 0) {
-                    float alphaFactor = 1.0f - (float) Math.abs(verticalOffset) / (float) totalScrollRange;
-                    cardHeroContainer.setAlpha(Math.max(0f, Math.min(1f, alphaFactor)));
+                int delta = verticalOffset - currentAppBarOffset;
+                currentAppBarOffset = verticalOffset;
+
+                updateHeroFade(appBar.getTotalScrollRange(), verticalOffset);
+
+                if (delta < 0) {            // collapsing -> user scrolling down
+                    setBottomNavHidden(true);
+                } else if (delta > 0) {     // expanding -> user scrolling up
+                    setBottomNavHidden(false);
                 }
             });
+
+            // 3) Re-sync the fade after any layout pass (first layout, rotation, size changes)
+            appBarLayout.addOnLayoutChangeListener((v, l, t, r, b, oldL, oldT, oldR, oldB) ->
+                    updateHeroFade(appBarLayout.getTotalScrollRange(), currentAppBarOffset));
         }
+    }
+
+    /** Fully visible until 75% collapsed, then fades to 0 over the last 25%. Reverses on expand. */
+    private void updateHeroFade(int totalScrollRange, int verticalOffset) {
+        if (cardHeroContainer == null || totalScrollRange <= 0) return;
+
+        float progress = Math.min(1f, Math.abs(verticalOffset) / (float) totalScrollRange);
+
+        // Keeps the banner fully visible until 90% scrolled, then fades out over the last 10%
+        float fadeStartThreshold = 0.90f;
+
+        float alpha = (progress <= fadeStartThreshold) ? 1f : 1f - ((progress - fadeStartThreshold) / (1f - fadeStartThreshold));
+        cardHeroContainer.setAlpha(Math.max(0f, Math.min(1f, alpha)));
+    }
+
+    /** Only animates when the state actually changes, so the animation is never restarted mid-flight. */
+    private void setBottomNavHidden(boolean hide) {
+        if (bottomNavParent == null || hide == isBottomNavHidden) return;
+        isBottomNavHidden = hide;
+
+        bottomNavParent.animate().cancel(); // Instantly stop any running slide, new one starts from current position
+        bottomNavParent.animate()
+                .translationY(hide ? getBottomNavHiddenTranslation() : 0f)
+                .setInterpolator(new AccelerateDecelerateInterpolator())
+                .setDuration(NAV_ANIM_MS)
+                .start();
+    }
+
+    /** Height + bottom margin + extra so the 20dp elevation shadow is fully off-screen too. */
+    private float getBottomNavHiddenTranslation() {
+        ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) bottomNavParent.getLayoutParams();
+        float shadowExtra = 24f * getResources().getDisplayMetrics().density;
+        return bottomNavParent.getHeight() + lp.bottomMargin + shadowExtra;
     }
 
     private void setupHeaderBlur() {
@@ -460,10 +508,11 @@ public class MainActivity extends AppCompatActivity {
     private void setupNewLaunch() {
         List<ProductItem> list = new ArrayList<>();
         list.add(new ProductItem("Almond Milk Unsweetened", "SOFIT", "₹180", "₹210", "14% OFF", "1 L", "https://res.cloudinary.com/bxfg4024/image/upload/v1791029827/almond_milk.png"));
-        list.add(new ProductItem("Flavored Berry Yogurt", "EPIGAMIA", "₹45", "₹50", "10% OFF", "200 g", "https://res.cloudinary.com/bxfg4024/image/upload/v1791283302/pngwing.com_3.png"));
-        list.add(new ProductItem("Sweetened Condensed Milk", "NESTLE", "₹140", "₹160", "12% OFF", "400 g", "https://res.cloudinary.com/bxfg4024/image/upload/v1791283298/pngwing.com_2.png"));
+        List<ProductItem> listNew = new ArrayList<>();
+        listNew.add(new ProductItem("Flavored Berry Yogurt", "EPIGAMIA", "₹45", "₹50", "10% OFF", "200 g", "https://res.cloudinary.com/bxfg4024/image/upload/v1791283302/pngwing.com_3.png"));
+        listNew.add(new ProductItem("Sweetened Condensed Milk", "NESTLE", "₹140", "₹160", "12% OFF", "400 g", "https://res.cloudinary.com/bxfg4024/image/upload/v1791283298/pngwing.com_2.png"));
 
         rvNewLaunch.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        rvNewLaunch.setAdapter(new ProductAdapter(list));
+        rvNewLaunch.setAdapter(new ProductAdapter(listNew));
     }
 }
