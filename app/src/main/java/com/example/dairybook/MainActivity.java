@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private ImageView ivMenu;
-    private ShapeableImageView ivUserProfile;
     private ImageView ivHeroBanner;
     private View cardHeroContainer;
     private AppBarLayout appBarLayout;
@@ -49,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvBannerCounter;
     private LinearLayout layoutDotsIndicator;
     private RecyclerView rvCategories, rvFreshProducts, rvDealOfTheDay, rvComboOffer, rvNewLaunch;
-    private BlurView blurHeaderPill, blurDrawer;
+    private BlurView blurDrawer;
     private NestedScrollView scrollViewMain;
 
     // Drawer View Elements
@@ -89,9 +88,7 @@ public class MainActivity extends AppCompatActivity {
         scrollViewMain = findViewById(R.id.scrollViewMain);
         appBarLayout = findViewById(R.id.appBarLayout);
         cardHeroContainer = findViewById(R.id.cardHeroContainer);
-        ivUserProfile = findViewById(R.id.ivUserProfile);
         ivHeroBanner = findViewById(R.id.ivHeroBanner);
-        blurHeaderPill = findViewById(R.id.blurHeaderPill);
         bannerViewPager = findViewById(R.id.bannerViewPager);
         tvBannerCounter = findViewById(R.id.tvBannerCounter);
         layoutDotsIndicator = findViewById(R.id.layoutDotsIndicator);
@@ -127,8 +124,7 @@ public class MainActivity extends AppCompatActivity {
         navOfferText = findViewById(R.id.navOfferText);
         navCartText = findViewById(R.id.navCartText);
 
-        // Setup Glass Blur on Header Pill & Drawer
-        setupHeaderBlur();
+        // Setup Glass Blur on Drawer
         setupDrawerBlur();
 
         // Synchronize real-time drawer blur rendering
@@ -145,19 +141,15 @@ public class MainActivity extends AppCompatActivity {
         // Setup Drawer Actions
         setupDrawerActions();
 
-        // Load Images
+        // Load Profile Image into Drawer
         String profileImageUrl = "https://res.cloudinary.com/bxfg4024/image/upload/v1791023620/profile_image.jpg";
-        Glide.with(this)
-                .load(profileImageUrl)
-                .placeholder(new ColorDrawable(Color.parseColor("#E0E0E0")))
-                .error(new ColorDrawable(Color.parseColor("#E0E0E0")))
-                .into(ivUserProfile);
-
-        Glide.with(this)
-                .load(profileImageUrl)
-                .placeholder(new ColorDrawable(Color.parseColor("#E0E0E0")))
-                .error(new ColorDrawable(Color.parseColor("#E0E0E0")))
-                .into(ivDrawerProfile);
+        if (ivDrawerProfile != null) {
+            Glide.with(this)
+                    .load(profileImageUrl)
+                    .placeholder(new ColorDrawable(Color.parseColor("#E0E0E0")))
+                    .error(new ColorDrawable(Color.parseColor("#E0E0E0")))
+                    .into(ivDrawerProfile);
+        }
 
         String heroBannerUrl = "https://res.cloudinary.com/bxfg4024/image/upload/v1791960185/Gemini_Generated_Image_2zhk4i2zhk4i2zhk.png";
         Glide.with(this)
@@ -177,7 +169,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupScrollBehavior() {
-        // 1) Bottom nav: reacts to content scrolling (state-guarded, no animation restarts)
         if (scrollViewMain != null) {
             scrollViewMain.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
                 int dy = scrollY - oldScrollY;
@@ -189,8 +180,6 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        // 2) AppBar offset: drives BOTH the hero fade and the nav while the AppBar is
-        //    consuming the scroll (when scrollY is not changing yet)
         if (appBarLayout != null) {
             appBarLayout.addOnOffsetChangedListener((AppBarLayout appBar, int verticalOffset) -> {
                 int delta = verticalOffset - currentAppBarOffset;
@@ -198,38 +187,33 @@ public class MainActivity extends AppCompatActivity {
 
                 updateHeroFade(appBar.getTotalScrollRange(), verticalOffset);
 
-                if (delta < 0) {            // collapsing -> user scrolling down
+                if (delta < 0) {
                     setBottomNavHidden(true);
-                } else if (delta > 0) {     // expanding -> user scrolling up
+                } else if (delta > 0) {
                     setBottomNavHidden(false);
                 }
             });
 
-            // 3) Re-sync the fade after any layout pass (first layout, rotation, size changes)
             appBarLayout.addOnLayoutChangeListener((v, l, t, r, b, oldL, oldT, oldR, oldB) ->
                     updateHeroFade(appBarLayout.getTotalScrollRange(), currentAppBarOffset));
         }
     }
 
-    /** Fully visible until 75% collapsed, then fades to 0 over the last 25%. Reverses on expand. */
     private void updateHeroFade(int totalScrollRange, int verticalOffset) {
         if (cardHeroContainer == null || totalScrollRange <= 0) return;
 
         float progress = Math.min(1f, Math.abs(verticalOffset) / (float) totalScrollRange);
-
-        // Keeps the banner fully visible until 90% scrolled, then fades out over the last 10%
         float fadeStartThreshold = 0.90f;
-
         float alpha = (progress <= fadeStartThreshold) ? 1f : 1f - ((progress - fadeStartThreshold) / (1f - fadeStartThreshold));
+
         cardHeroContainer.setAlpha(Math.max(0f, Math.min(1f, alpha)));
     }
 
-    /** Only animates when the state actually changes, so the animation is never restarted mid-flight. */
     private void setBottomNavHidden(boolean hide) {
         if (bottomNavParent == null || hide == isBottomNavHidden) return;
         isBottomNavHidden = hide;
 
-        bottomNavParent.animate().cancel(); // Instantly stop any running slide, new one starts from current position
+        bottomNavParent.animate().cancel();
         bottomNavParent.animate()
                 .translationY(hide ? getBottomNavHiddenTranslation() : 0f)
                 .setInterpolator(new AccelerateDecelerateInterpolator())
@@ -237,23 +221,10 @@ public class MainActivity extends AppCompatActivity {
                 .start();
     }
 
-    /** Height + bottom margin + extra so the 20dp elevation shadow is fully off-screen too. */
     private float getBottomNavHiddenTranslation() {
         ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) bottomNavParent.getLayoutParams();
         float shadowExtra = 24f * getResources().getDisplayMetrics().density;
         return bottomNavParent.getHeight() + lp.bottomMargin + shadowExtra;
-    }
-
-    private void setupHeaderBlur() {
-        View decorView = getWindow().getDecorView();
-        ViewGroup rootView = decorView.findViewById(android.R.id.content);
-        Drawable windowBackground = decorView.getBackground();
-
-        if (blurHeaderPill != null) {
-            blurHeaderPill.setupWith(rootView, new RenderScriptBlur(this))
-                    .setFrameClearDrawable(windowBackground)
-                    .setBlurRadius(16f);
-        }
     }
 
     private void setupDrawerBlur() {
@@ -506,7 +477,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupNewLaunch() {
-
         List<ProductItem> listNew = new ArrayList<>();
         listNew.add(new ProductItem("Almond Milk Unsweetened", "SOFIT", "₹180", "₹210", "14% OFF", "1 L", "https://res.cloudinary.com/bxfg4024/image/upload/v1791029827/almond_milk.png"));
         listNew.add(new ProductItem("Flavored Berry Yogurt", "EPIGAMIA", "₹45", "₹50", "10% OFF", "200 g", "https://res.cloudinary.com/bxfg4024/image/upload/v1791283302/pngwing.com_3.png"));
