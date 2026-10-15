@@ -359,6 +359,8 @@ public class MainActivity extends AppCompatActivity {
     private void resetTab(LinearLayout layout, ImageView icon, TextView text) {
         layout.setBackground(null);
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) layout.getLayoutParams();
+        params.width = 0;
+        params.height = (int) (44 * getResources().getDisplayMetrics().density);
         params.weight = 1.0f;
         layout.setLayoutParams(params);
 
@@ -369,7 +371,9 @@ public class MainActivity extends AppCompatActivity {
     private void activateTab(LinearLayout layout, ImageView icon, TextView text) {
         layout.setBackgroundResource(R.drawable.bg_active_nav_tab);
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) layout.getLayoutParams();
-        params.weight = 1.38f;
+        params.width = 0;
+        params.height = (int) (44 * getResources().getDisplayMetrics().density);
+        params.weight = 1.35f;
         layout.setLayoutParams(params);
 
         icon.setColorFilter(Color.parseColor("#008000"));

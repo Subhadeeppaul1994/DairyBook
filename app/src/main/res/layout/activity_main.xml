@@ -46,7 +46,8 @@
                         android:id="@+id/ivHeroBanner"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:scaleType="centerCrop" />
+                        android:scaleType="centerCrop"
+                        android:layout_marginBottom="10dp"/>
 
                 </com.google.android.material.card.MaterialCardView>
 
@@ -455,7 +456,7 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/bottomNavigationCard"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
+            android:layout_height="60dp"
             android:layout_gravity="bottom"
             android:layout_marginHorizontal="18dp"
             android:layout_marginBottom="16dp"
@@ -468,23 +469,23 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="8dp">
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="6dp">
 
                 <!-- HOME TAB -->
                 <LinearLayout
                     android:id="@+id/navHomeLayout"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="44dp"
                     android:layout_weight="1"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:focusable="true"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:paddingHorizontal="12dp">
+                    android:paddingHorizontal="10dp">
 
                     <ImageView
                         android:id="@+id/navHomeIcon"
@@ -510,14 +511,14 @@
                 <LinearLayout
                     android:id="@+id/navFavLayout"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="44dp"
                     android:layout_weight="1"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:focusable="true"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:paddingHorizontal="12dp">
+                    android:paddingHorizontal="10dp">
 
                     <ImageView
                         android:id="@+id/navFavIcon"
@@ -543,14 +544,14 @@
                 <LinearLayout
                     android:id="@+id/navOfferLayout"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="44dp"
                     android:layout_weight="1"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:focusable="true"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:paddingHorizontal="12dp">
+                    android:paddingHorizontal="10dp">
 
                     <ImageView
                         android:id="@+id/navOfferIcon"
@@ -576,14 +577,14 @@
                 <LinearLayout
                     android:id="@+id/navCartLayout"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="44dp"
                     android:layout_weight="1"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:focusable="true"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:paddingHorizontal="12dp">
+                    android:paddingHorizontal="10dp">
 
                     <ImageView
                         android:id="@+id/navCartIcon"
