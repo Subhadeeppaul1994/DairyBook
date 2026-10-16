@@ -1,10 +1,12 @@
 package com.example.dairybook;
 
 import android.graphics.Color;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -82,7 +84,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         int expandedHeight = (int) (45 * density);
         int collapsedHeight = (int) (34 * density);
 
-        // 2. Dynamically shrink pill card width from 115dp down to 75dp as user scrolls up
+        // 2. Dynamically shrink pill card width from 115dp down to 75dp uniformly for all items
         int expandedWidth = (int) (115 * density);
         int collapsedWidth = (int) (75 * density);
 
@@ -101,16 +103,24 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         holder.imageContainerCard.setAlpha(scaleFactor);
         holder.imageContainerCard.setVisibility(scrollProgress > 0.95f ? View.GONE : View.VISIBLE);
 
-        // 4. Smooth text alignment transition: adjust start margin and center gravity when collapsed
-        ViewGroup.MarginLayoutParams textParams = (ViewGroup.MarginLayoutParams) holder.tvCategoryName.getLayoutParams();
-        textParams.leftMargin = (int) (12 * density * scaleFactor);
-        holder.tvCategoryName.setLayoutParams(textParams);
+        // 4. Perfect center alignment transition for text when scrolled up
+        LinearLayout.LayoutParams textParams = (LinearLayout.LayoutParams) holder.tvCategoryName.getLayoutParams();
+        LinearLayout innerLayout = (LinearLayout) holder.tvCategoryName.getParent();
 
         if (scrollProgress > 0.8f) {
-            holder.tvCategoryName.setGravity(android.view.Gravity.CENTER);
+            textParams.width = LinearLayout.LayoutParams.WRAP_CONTENT;
+            textParams.weight = 0;
+            textParams.leftMargin = 0;
+            holder.tvCategoryName.setGravity(Gravity.CENTER);
+            innerLayout.setGravity(Gravity.CENTER); // Dead-center both axes when icon collapses
         } else {
-            holder.tvCategoryName.setGravity(android.view.Gravity.CENTER_VERTICAL);
+            textParams.width = 0;
+            textParams.weight = 1f;
+            textParams.leftMargin = (int) (12 * density * scaleFactor);
+            holder.tvCategoryName.setGravity(Gravity.CENTER_VERTICAL);
+            innerLayout.setGravity(Gravity.CENTER_VERTICAL);
         }
+        holder.tvCategoryName.setLayoutParams(textParams);
 
         Glide.with(holder.itemView.getContext())
                 .load(item.getImageUrl())

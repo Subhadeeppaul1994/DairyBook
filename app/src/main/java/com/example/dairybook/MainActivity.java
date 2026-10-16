@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     // Scroll & Animation State Fields
     private boolean isBottomNavHidden = false;
     private int currentAppBarOffset = 0;
-    private static final long NAV_ANIM_MS = 150L;
+    private static final long NAV_ANIM_MS = 220L;
 
     private Handler autoScrollHandler = new Handler(Looper.getMainLooper());
     private Runnable autoScrollRunnable;
