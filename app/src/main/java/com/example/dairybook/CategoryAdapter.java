@@ -22,6 +22,17 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     private OnCategoryClickListener listener;
     private float scrollProgress = 0f;
 
+    // Distinct soft background colors for the category icon containers
+    private final int[] iconBackgroundColors = {
+            Color.parseColor("#ffd6d6"), // Light Red
+            Color.parseColor("#d6efff"), // Light Sky Blue
+            Color.parseColor("##fff2d6"), // Light orange
+            Color.parseColor("#edd6ff"), // Light purple
+            Color.parseColor("#deffd6"), // Light green
+            Color.parseColor("#ffd6f1"), // Light pink
+            Color.parseColor("#d6fffb")  // Light cyan
+    };
+
     public interface OnCategoryClickListener {
         void onCategoryClick(int position, CategoryItem item);
     }
@@ -61,6 +72,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         holder.cardCategory.setStrokeColor(targetStrokeColor);
         holder.tvCategoryName.setTextColor(targetTextColor);
 
+        // Apply a distinct background color to the icon container based on its position
+        int iconBgColor = iconBackgroundColors[position % iconBackgroundColors.length];
+        holder.imageContainerCard.setCardBackgroundColor(iconBgColor);
+
         float density = holder.itemView.getContext().getResources().getDisplayMetrics().density;
 
         // 1. Dynamically shrink pill card height from 45dp down to 34dp
@@ -79,7 +94,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         // Maintain smooth pill corner radius
         holder.cardCategory.setRadius(cardParams.height / 2f);
 
-        // 3. Clean uniform scale down & fade for the image container (Fixes the stuck tiny dot issue on scroll down)
+        // 3. Clean uniform scale down & fade for the image container
         float scaleFactor = Math.max(0f, 1f - scrollProgress);
         holder.imageContainerCard.setScaleX(scaleFactor);
         holder.imageContainerCard.setScaleY(scaleFactor);
@@ -88,7 +103,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         // 4. Smooth text alignment transition: adjust start margin and center gravity when collapsed
         ViewGroup.MarginLayoutParams textParams = (ViewGroup.MarginLayoutParams) holder.tvCategoryName.getLayoutParams();
-        textParams.leftMargin = (int) (8 * density * scaleFactor);
+        textParams.leftMargin = (int) (12 * density * scaleFactor);
         holder.tvCategoryName.setLayoutParams(textParams);
 
         if (scrollProgress > 0.8f) {
