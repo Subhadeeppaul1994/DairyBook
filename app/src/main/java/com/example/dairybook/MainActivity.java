@@ -2,7 +2,6 @@ package com.example.dairybook;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -48,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvBannerCounter;
     private LinearLayout layoutDotsIndicator;
     private RecyclerView rvCategories, rvFreshProducts, rvDealOfTheDay, rvComboOffer, rvNewLaunch;
+    private CategoryAdapter categoryAdapter;
     private BlurView blurDrawer;
     private NestedScrollView scrollViewMain;
 
@@ -182,10 +182,18 @@ public class MainActivity extends AppCompatActivity {
 
         if (appBarLayout != null) {
             appBarLayout.addOnOffsetChangedListener((AppBarLayout appBar, int verticalOffset) -> {
+                int totalScrollRange = appBar.getTotalScrollRange();
+                if (totalScrollRange > 0) {
+                    float scrollProgress = Math.abs(verticalOffset) / (float) totalScrollRange;
+                    if (categoryAdapter != null) {
+                        categoryAdapter.updateScrollProgress(scrollProgress);
+                    }
+                }
+
                 int delta = verticalOffset - currentAppBarOffset;
                 currentAppBarOffset = verticalOffset;
 
-                updateHeroFade(appBar.getTotalScrollRange(), verticalOffset);
+                updateHeroFade(totalScrollRange, verticalOffset);
 
                 if (delta < 0) {
                     setBottomNavHidden(true);
@@ -389,8 +397,12 @@ public class MainActivity extends AppCompatActivity {
         categories.add(new CategoryItem("Ghee", "https://res.cloudinary.com/bxfg4024/image/upload/v1791024628/ghee_icon.png"));
         categories.add(new CategoryItem("Yogurt", "https://res.cloudinary.com/bxfg4024/image/upload/v1791024896/Yogurt_icon.png"));
         categories.add(new CategoryItem("Sweet", "https://res.cloudinary.com/bxfg4024/image/upload/v1791024628/sweets_icon.png"));
+
         rvCategories.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        rvCategories.setAdapter(new CategoryAdapter(categories));
+        categoryAdapter = new CategoryAdapter(categories, (position, item) -> {
+            Toast.makeText(MainActivity.this, "Selected: " + item.getName(), Toast.LENGTH_SHORT).show();
+        });
+        rvCategories.setAdapter(categoryAdapter);
     }
 
     private void setupDotsIndicator(int count) {

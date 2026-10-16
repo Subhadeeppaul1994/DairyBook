@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:background="#F8F9FA">
 
-        <!-- COLLAPSING APP BAR (Hero Banner + Sticky Search & Categories) -->
+        <!-- COLLAPSING APP BAR (Hero Banner + Unified Sticky Search & Categories) -->
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
@@ -46,186 +46,190 @@
                         android:id="@+id/ivHeroBanner"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:layout_marginBottom="10dp"/>
+                        android:layout_marginBottom="0dp"
+                        android:scaleType="centerCrop" />
 
                 </com.google.android.material.card.MaterialCardView>
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-            <!-- STICKY SEARCH BAR CONTAINER WITH LOTTIE BACKGROUND -->
+            <!-- UNIFIED STICKY HEADER CONTAINER (Search Bar + Categories under same color & Lottie background) -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#E8F5E9"
                 app:layout_scrollFlags="noScroll">
 
-                <!-- Lottie Animation Background Effect Restricted to Search Bar Area -->
+                <!-- Lottie Animation Background Effect spanning both Search Bar and Categories -->
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/lottieHeaderEffect"
                     android:layout_width="match_parent"
-                    android:layout_height="96dp"
+                    android:layout_height="180dp"
                     android:scaleType="centerCrop"
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
                     app:lottie_rawRes="@raw/bubble_effect" />
 
-                <!-- Search Bar Block with Filter, Notification & Burger Menu -->
+                <!-- Vertical Container holding both Search Bar and Categories inside the unified block -->
                 <LinearLayout
-                    android:id="@+id/searchBarContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginBottom="0dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingTop="33dp"
-                    android:paddingBottom="20dp"
-                    android:paddingHorizontal="15dp">
+                    android:orientation="vertical">
 
-                    <!-- Hamburger Menu Button Card -->
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="38dp"
-                        android:layout_height="38dp"
-                        android:layout_marginStart="1dp"
-                        android:layout_marginEnd="10dp"
-                        app:cardBackgroundColor="#FFFFFF"
-                        app:cardCornerRadius="22.5dp"
-                        app:cardElevation="0dp"
-                        app:strokeColor="#CCCCCC"
-                        app:strokeWidth="1dp">
+                    <!-- Search Bar Block with Filter, Notification & Burger Menu -->
+                    <LinearLayout
+                        android:id="@+id/searchBarContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="15dp"
+                        android:paddingTop="33dp"
+                        android:paddingBottom="12dp">
 
-                        <ImageView
-                            android:id="@+id/ivMenu"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="?attr/selectableItemBackgroundBorderless"
-                            android:clickable="true"
-                            android:contentDescription="Open Menu"
-                            android:focusable="true"
-                            android:padding="4dp"
-                            android:scaleType="fitCenter"
-                            android:src="@drawable/burger"
-                            app:tint="#555555" />
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <!-- Search Field -->
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="0dp"
-                        android:layout_height="43dp"
-                        android:layout_weight="1"
-                        app:cardBackgroundColor="#FFFFFF"
-                        app:cardCornerRadius="25dp"
-                        app:cardElevation="0dp"
-                        app:strokeColor="#CCCCCC"
-                        app:strokeWidth="1dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            android:paddingHorizontal="16dp">
+                        <!-- Hamburger Menu Button Card -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="38dp"
+                            android:layout_height="38dp"
+                            android:layout_marginStart="1dp"
+                            android:layout_marginEnd="10dp"
+                            app:cardBackgroundColor="#FFFFFF"
+                            app:cardCornerRadius="22.5dp"
+                            app:cardElevation="0dp"
+                            app:strokeColor="#CCCCCC"
+                            app:strokeWidth="1dp">
 
                             <ImageView
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:src="@android:drawable/ic_menu_search"
-                                app:tint="#888888" />
-
-                            <EditText
-                                android:id="@+id/etSearch"
+                                android:id="@+id/ivMenu"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:layout_marginStart="10dp"
-                                android:background="@null"
-                                android:hint="Search fresh milk, butter, cheese..."
-                                android:imeOptions="actionSearch"
-                                android:inputType="text"
-                                android:textColor="#111111"
-                                android:textColorHint="#999999"
-                                android:textSize="14sp" />
-                        </LinearLayout>
-                    </com.google.android.material.card.MaterialCardView>
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:clickable="true"
+                                android:contentDescription="Open Menu"
+                                android:focusable="true"
+                                android:padding="4dp"
+                                android:scaleType="fitCenter"
+                                android:src="@drawable/burger"
+                                app:tint="#555555" />
+                        </com.google.android.material.card.MaterialCardView>
 
-                    <!-- Filter Button Card -->
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="38dp"
-                        android:layout_height="38dp"
-                        android:layout_marginStart="10dp"
-                        app:cardBackgroundColor="#FFFFFF"
-                        app:cardCornerRadius="22.5dp"
-                        app:cardElevation="0dp"
-                        app:strokeColor="#CCCCCC"
-                        app:strokeWidth="1dp">
+                        <!-- Search Field -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="0dp"
+                            android:layout_height="43dp"
+                            android:layout_weight="1"
+                            app:cardBackgroundColor="#FFFFFF"
+                            app:cardCornerRadius="25dp"
+                            app:cardElevation="0dp"
+                            app:strokeColor="#CCCCCC"
+                            app:strokeWidth="1dp">
 
-                        <ImageButton
-                            android:id="@+id/btnFilter"
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:paddingHorizontal="16dp">
+
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:src="@android:drawable/ic_menu_search"
+                                    app:tint="#888888" />
+
+                                <EditText
+                                    android:id="@+id/etSearch"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginStart="10dp"
+                                    android:background="@null"
+                                    android:hint="Search fresh milk, butter, cheese..."
+                                    android:imeOptions="actionSearch"
+                                    android:inputType="text"
+                                    android:textColor="#111111"
+                                    android:textColorHint="#999999"
+                                    android:textSize="14sp" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <!-- Filter Button Card -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="38dp"
+                            android:layout_height="38dp"
+                            android:layout_marginStart="10dp"
+                            app:cardBackgroundColor="#FFFFFF"
+                            app:cardCornerRadius="22.5dp"
+                            app:cardElevation="0dp"
+                            app:strokeColor="#CCCCCC"
+                            app:strokeWidth="1dp">
+
+                            <ImageButton
+                                android:id="@+id/btnFilter"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:padding="8.6dp"
+                                android:scaleType="fitCenter"
+                                android:src="@drawable/filter2" />
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <!-- Notification Button Card -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="38dp"
+                            android:layout_height="38dp"
+                            android:layout_marginStart="10dp"
+                            app:cardBackgroundColor="#FFFFFF"
+                            app:cardCornerRadius="22.5dp"
+                            app:cardElevation="0dp"
+                            app:strokeColor="#CCCCCC"
+                            app:strokeWidth="1dp">
+
+                            <ImageButton
+                                android:id="@+id/btnNotification"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:padding="7.4dp"
+                                android:scaleType="fitCenter"
+                                android:src="@drawable/belloutline" />
+                        </com.google.android.material.card.MaterialCardView>
+
+                    </LinearLayout>
+
+                    <!-- CATEGORIES SECTION (Pill items with image & text inside unified block) -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingBottom="14dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginBottom="8dp"
+                            android:text="Categories"
+                            android:textColor="#111111"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvCategories"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="?attr/selectableItemBackgroundBorderless"
-                            android:padding="8.6dp"
-                            android:scaleType="fitCenter"
-                            android:src="@drawable/filter2" />
-                    </com.google.android.material.card.MaterialCardView>
+                            android:layout_height="wrap_content"
+                            android:clipToPadding="false"
+                            android:nestedScrollingEnabled="false"
+                            android:orientation="horizontal"
+                            android:paddingHorizontal="16dp"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            tools:listitem="@layout/item_category" />
 
-                    <!-- Notification Button Card -->
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="38dp"
-                        android:layout_height="38dp"
-                        android:layout_marginStart="10dp"
-                        app:cardBackgroundColor="#FFFFFF"
-                        app:cardCornerRadius="22.5dp"
-                        app:cardElevation="0dp"
-                        app:strokeColor="#CCCCCC"
-                        app:strokeWidth="1dp">
-
-                        <ImageButton
-                            android:id="@+id/btnNotification"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="?attr/selectableItemBackgroundBorderless"
-                            android:padding="7.4dp"
-                            android:scaleType="fitCenter"
-                            android:src="@drawable/belloutline" />
-                    </com.google.android.material.card.MaterialCardView>
+                    </LinearLayout>
 
                 </LinearLayout>
 
             </RelativeLayout>
-
-            <!-- CATEGORIES SECTION (Excluded from Lottie and Green Background) -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#F8F9FA"
-                android:orientation="vertical"
-                app:layout_scrollFlags="noScroll">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="12dp"
-                    android:text="Categories"
-                    android:textColor="#111111"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvCategories"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:clipToPadding="false"
-                    android:nestedScrollingEnabled="false"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="16dp"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/item_category" />
-
-            </LinearLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -375,8 +379,8 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingHorizontal="20dp"
-                        android:layout_marginTop="-2dp">
+                        android:layout_marginTop="-2dp"
+                        android:paddingHorizontal="20dp">
 
                         <TextView
                             android:layout_width="wrap_content"

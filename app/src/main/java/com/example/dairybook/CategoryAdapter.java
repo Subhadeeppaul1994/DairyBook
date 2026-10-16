@@ -18,20 +18,25 @@ import java.util.List;
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
 
     private List<CategoryItem> categories;
+    private int selectedPosition = 0;
+    private OnCategoryClickListener listener;
+    private float scrollProgress = 0f;
 
-    // Light pastel colors: Red, Sky Blue, Orange, Purple, Green, Pink, Cyan
-    private final String[] lightColors = {
-            "#ffd6d6", // Light Red
-            "#d6efff", // Light Sky Blue
-            "#fff2d6", // Light orange
-            "#edd6ff", // Light purple
-            "#deffd6", // Light green
-            "#ffd6f1", // Light pink
-            "#d6fffb"  // Light cyan
-    };
+    public interface OnCategoryClickListener {
+        void onCategoryClick(int position, CategoryItem item);
+    }
 
-    public CategoryAdapter(List<CategoryItem> categories) {
+    public CategoryAdapter(List<CategoryItem> categories, OnCategoryClickListener listener) {
         this.categories = categories;
+        this.listener = listener;
+    }
+
+    public void updateScrollProgress(float progress) {
+        float newProgress = Math.max(0f, Math.min(1f, progress));
+        if (Math.abs(this.scrollProgress - newProgress) > 0.01f) {
+            this.scrollProgress = newProgress;
+            notifyDataSetChanged();
+        }
     }
 
     @NonNull
@@ -46,14 +51,69 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         CategoryItem item = categories.get(position);
         holder.tvCategoryName.setText(item.getName());
 
-        // Assign different light background color based on position
-        int colorIndex = position % lightColors.length;
-        holder.cardCategory.setCardBackgroundColor(Color.parseColor(lightColors[colorIndex]));
+        boolean isSelected = (position == selectedPosition);
+
+        int targetBackgroundColor = isSelected ? Color.parseColor("#90EE90") : Color.parseColor("#FFFFFF");
+        int targetTextColor = isSelected ? Color.parseColor("#FFFFFF") : Color.parseColor("#333333");
+        int targetStrokeColor = isSelected ? Color.parseColor("#168D16") : Color.parseColor("#E0E0E0");
+
+        holder.cardCategory.setCardBackgroundColor(targetBackgroundColor);
+        holder.cardCategory.setStrokeColor(targetStrokeColor);
+        holder.tvCategoryName.setTextColor(targetTextColor);
+
+        float density = holder.itemView.getContext().getResources().getDisplayMetrics().density;
+
+        // 1. Dynamically shrink pill card height from 45dp down to 34dp
+        int expandedHeight = (int) (45 * density);
+        int collapsedHeight = (int) (34 * density);
+
+        // 2. Dynamically shrink pill card width from 115dp down to 75dp as user scrolls up
+        int expandedWidth = (int) (115 * density);
+        int collapsedWidth = (int) (75 * density);
+
+        ViewGroup.LayoutParams cardParams = holder.cardCategory.getLayoutParams();
+        cardParams.height = (int) (expandedHeight - (expandedHeight - collapsedHeight) * scrollProgress);
+        cardParams.width = (int) (expandedWidth - (expandedWidth - collapsedWidth) * scrollProgress);
+        holder.cardCategory.setLayoutParams(cardParams);
+
+        // Maintain smooth pill corner radius
+        holder.cardCategory.setRadius(cardParams.height / 2f);
+
+        // 3. Clean uniform scale down & fade for the image container (Fixes the stuck tiny dot issue on scroll down)
+        float scaleFactor = Math.max(0f, 1f - scrollProgress);
+        holder.imageContainerCard.setScaleX(scaleFactor);
+        holder.imageContainerCard.setScaleY(scaleFactor);
+        holder.imageContainerCard.setAlpha(scaleFactor);
+        holder.imageContainerCard.setVisibility(scrollProgress > 0.95f ? View.GONE : View.VISIBLE);
+
+        // 4. Smooth text alignment transition: adjust start margin and center gravity when collapsed
+        ViewGroup.MarginLayoutParams textParams = (ViewGroup.MarginLayoutParams) holder.tvCategoryName.getLayoutParams();
+        textParams.leftMargin = (int) (8 * density * scaleFactor);
+        holder.tvCategoryName.setLayoutParams(textParams);
+
+        if (scrollProgress > 0.8f) {
+            holder.tvCategoryName.setGravity(android.view.Gravity.CENTER);
+        } else {
+            holder.tvCategoryName.setGravity(android.view.Gravity.CENTER_VERTICAL);
+        }
 
         Glide.with(holder.itemView.getContext())
                 .load(item.getImageUrl())
                 .placeholder(android.R.color.transparent)
                 .into(holder.ivCategoryImage);
+
+        // Reliable selection click handling
+        holder.cardCategory.setOnClickListener(v -> {
+            int previousSelected = selectedPosition;
+            selectedPosition = holder.getAdapterPosition();
+            if (selectedPosition != RecyclerView.NO_POSITION) {
+                notifyItemChanged(previousSelected);
+                notifyItemChanged(selectedPosition);
+                if (listener != null) {
+                    listener.onCategoryClick(selectedPosition, item);
+                }
+            }
+        });
     }
 
     @Override
@@ -63,12 +123,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     static class CategoryViewHolder extends RecyclerView.ViewHolder {
         MaterialCardView cardCategory;
+        MaterialCardView imageContainerCard;
         ImageView ivCategoryImage;
         TextView tvCategoryName;
 
         public CategoryViewHolder(@NonNull View itemView) {
             super(itemView);
-            cardCategory = itemView.findViewById(R.id.cardCategory);
+            cardCategory = (MaterialCardView) itemView;
+            imageContainerCard = itemView.findViewById(R.id.imageContainerCard);
             ivCategoryImage = itemView.findViewById(R.id.ivCategoryImage);
             tvCategoryName = itemView.findViewById(R.id.tvCategoryName);
         }
