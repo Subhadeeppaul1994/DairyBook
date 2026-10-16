@@ -26,7 +26,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     private final int[] iconBackgroundColors = {
             Color.parseColor("#ffd6d6"), // Light Red
             Color.parseColor("#d6efff"), // Light Sky Blue
-            Color.parseColor("##fff2d6"), // Light orange
+            Color.parseColor("#fff2d6"), // Light orange
             Color.parseColor("#edd6ff"), // Light purple
             Color.parseColor("#deffd6"), // Light green
             Color.parseColor("#ffd6f1"), // Light pink
