@@ -434,7 +434,7 @@ public class MainActivity extends AppCompatActivity {
             if (i == position) {
                 shape.setShape(GradientDrawable.RECTANGLE);
                 shape.setCornerRadius(10f);
-                shape.setColor(Color.parseColor("#FF5722"));
+                shape.setColor(Color.parseColor("#7ec253"));
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(40, 16);
                 params.setMargins(6, 0, 6, 0);
                 dot.setLayoutParams(params);
