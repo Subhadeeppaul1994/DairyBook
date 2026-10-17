@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private View cardHeroContainer;
     private AppBarLayout appBarLayout;
     private ViewPager2 bannerViewPager;
-    private TextView tvBannerCounter;
+    private TextView tvBannerCounter, tvCategoriesHeader;
     private LinearLayout layoutDotsIndicator;
     private RecyclerView rvCategories, rvFreshProducts, rvDealOfTheDay, rvComboOffer, rvNewLaunch;
     private CategoryAdapter categoryAdapter;
@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
         ivHeroBanner = findViewById(R.id.ivHeroBanner);
         bannerViewPager = findViewById(R.id.bannerViewPager);
         tvBannerCounter = findViewById(R.id.tvBannerCounter);
+        tvCategoriesHeader = findViewById(R.id.tvCategoriesHeader);
         layoutDotsIndicator = findViewById(R.id.layoutDotsIndicator);
         rvCategories = findViewById(R.id.rvCategories);
         rvFreshProducts = findViewById(R.id.rvFreshProducts);
@@ -187,6 +188,20 @@ public class MainActivity extends AppCompatActivity {
                     float scrollProgress = Math.abs(verticalOffset) / (float) totalScrollRange;
                     if (categoryAdapter != null) {
                         categoryAdapter.updateScrollProgress(scrollProgress);
+                    }
+
+                    // Scale down text instantly to 0 without fade-out animation
+                    if (tvCategoriesHeader != null) {
+                        float scale = scrollProgress > 0.5f ? 0f : 1f;
+                        tvCategoriesHeader.setScaleX(scale);
+                        tvCategoriesHeader.setScaleY(scale);
+                        tvCategoriesHeader.setVisibility(scale == 0f ? View.GONE : View.VISIBLE);
+                    }
+
+                    // Minimise the space between search bar and categories by ~10% dynamically on scroll up
+                    if (rvCategories != null) {
+                        float maxPullUp = 12f * getResources().getDisplayMetrics().density; // ~10% adjustment range
+                        rvCategories.setTranslationY(-scrollProgress * maxPullUp);
                     }
                 }
 
@@ -434,7 +449,7 @@ public class MainActivity extends AppCompatActivity {
             if (i == position) {
                 shape.setShape(GradientDrawable.RECTANGLE);
                 shape.setCornerRadius(10f);
-                shape.setColor(Color.parseColor("#7ec253"));
+                shape.setColor(Color.parseColor("#308f15"));
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(40, 16);
                 params.setMargins(6, 0, 6, 0);
                 dot.setLayoutParams(params);

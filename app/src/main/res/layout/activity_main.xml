@@ -67,8 +67,7 @@
                     android:layout_height="180dp"
                     android:scaleType="centerCrop"
                     app:lottie_autoPlay="true"
-                    app:lottie_loop="true"
-                     />
+                    app:lottie_loop="true" />
 
                 <!-- Vertical Container holding both Search Bar and Categories inside the unified block -->
                 <LinearLayout
@@ -204,6 +203,7 @@
                         android:paddingBottom="14dp">
 
                         <TextView
+                            android:id="@+id/tvCategoriesHeader"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
