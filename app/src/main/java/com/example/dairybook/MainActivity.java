@@ -190,18 +190,15 @@ public class MainActivity extends AppCompatActivity {
                         categoryAdapter.updateScrollProgress(scrollProgress);
                     }
 
-                    // Scale down text instantly to 0 without fade-out animation
+                    // Fade out and scale down the header text while preserving layout space to prevent spacing collapse
                     if (tvCategoriesHeader != null) {
-                        float scale = scrollProgress > 0.5f ? 0f : 1f;
+                        float textProgress = Math.min(1f, scrollProgress * 1.5f);
+                        float scale = Math.max(0f, 1f - textProgress);
                         tvCategoriesHeader.setScaleX(scale);
                         tvCategoriesHeader.setScaleY(scale);
-                        tvCategoriesHeader.setVisibility(scale == 0f ? View.GONE : View.VISIBLE);
-                    }
-
-                    // Minimise the space between search bar and categories by ~10% dynamically on scroll up
-                    if (rvCategories != null) {
-                        float maxPullUp = 12f * getResources().getDisplayMetrics().density; // ~10% adjustment range
-                        rvCategories.setTranslationY(-scrollProgress * maxPullUp);
+                        tvCategoriesHeader.setAlpha(scale);
+                        // Using INVISIBLE instead of GONE keeps the reserved structural height stable so gaps don't minimize
+                        tvCategoriesHeader.setVisibility(scale == 0f ? View.INVISIBLE : View.VISIBLE);
                     }
                 }
 
