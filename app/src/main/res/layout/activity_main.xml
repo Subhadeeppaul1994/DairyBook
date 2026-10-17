@@ -68,7 +68,7 @@
                     android:scaleType="centerCrop"
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
-                    app:lottie_rawRes="@raw/bubble_effect" />
+                     />
 
                 <!-- Vertical Container holding both Search Bar and Categories inside the unified block -->
                 <LinearLayout

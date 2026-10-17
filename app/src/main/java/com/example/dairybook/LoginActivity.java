@@ -11,22 +11,25 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
-
-    // Define hardcoded credentials for app testing
-    private static final String TEST_EMAIL = "sp@gmail.com";
-    private static final String TEST_PASSWORD = "123456";
 
     private TextInputEditText etEmail, etPassword;
     private CheckBox cbRememberMe;
     private TextView tvForgotPassword, tvSignUp;
     private MaterialButton btnLogin, btnGoogleLogin;
 
+    // Firebase Auth instance
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
 
         // Initialize UI components matching your XML IDs
         etEmail = findViewById(R.id.etEmail);
@@ -36,10 +39,6 @@ public class LoginActivity extends AppCompatActivity {
         tvSignUp = findViewById(R.id.tvSignUp);
         btnLogin = findViewById(R.id.btnLogin);
         btnGoogleLogin = findViewById(R.id.btnGoogleLogin);
-
-        // Pre-fill fields with test credentials for fast testing
-        etEmail.setText(TEST_EMAIL);
-        etPassword.setText(TEST_PASSWORD);
 
         // Login Button Click Listener
         btnLogin.setOnClickListener(v -> handleLogin());
@@ -78,16 +77,23 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        // Static credential validation
-        if (email.equalsIgnoreCase(TEST_EMAIL) && password.equals(TEST_PASSWORD)) {
-            Toast.makeText(this, "Login Successful!", Toast.LENGTH_SHORT).show();
+        btnLogin.setEnabled(false); // Prevent multiple taps
 
-            // Navigate to Home Main Screen
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish(); // Prevent user from returning to login screen via back button
-        } else {
-            Toast.makeText(this, "Invalid credentials. Use: admin@dairybook.com / 123456", Toast.LENGTH_LONG).show();
-        }
+        // Authenticate user with Firebase
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    btnLogin.setEnabled(true);
+                    if (task.isSuccessful()) {
+                        Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
+
+                        // Navigate to Home Main Screen
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 }

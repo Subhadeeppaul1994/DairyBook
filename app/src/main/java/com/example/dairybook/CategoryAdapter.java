@@ -66,9 +66,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         boolean isSelected = (position == selectedPosition);
 
-        int targetBackgroundColor = isSelected ? Color.parseColor("#90EE90") : Color.parseColor("#FFFFFF");
+        int targetBackgroundColor = isSelected ? Color.parseColor("#7ec253") : Color.parseColor("#FFFFFF");
         int targetTextColor = isSelected ? Color.parseColor("#FFFFFF") : Color.parseColor("#333333");
-        int targetStrokeColor = isSelected ? Color.parseColor("#168D16") : Color.parseColor("#E0E0E0");
+        int targetStrokeColor = isSelected ? Color.parseColor("#006900") : Color.parseColor("#E0E0E0");
 
         holder.cardCategory.setCardBackgroundColor(targetBackgroundColor);
         holder.cardCategory.setStrokeColor(targetStrokeColor);

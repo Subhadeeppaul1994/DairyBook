@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "784853961403",
+    "project_id": "dairybook-64844",
+    "storage_bucket": "dairybook-64844.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:784853961403:android:2a723e48d4000399c3779e",
+        "android_client_info": {
+          "package_name": "com.example.dairybook"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKxHdqt4we2KFo_sMQVpfzqarQTCM6XvE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
